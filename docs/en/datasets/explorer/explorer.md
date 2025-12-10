@@ -75,7 +75,7 @@ You get a pandas dataframe with the limit number of most similar data points to 
 ![Similarity search table](https://github.com/ultralytics/docs/releases/download/0/similarity-search-table.avif)
 
 ```python
-# Search dataset by index
+# Search datasets by index
 similar = exp.get_similar(idx=1, limit=10)
 similar.head()
 ```

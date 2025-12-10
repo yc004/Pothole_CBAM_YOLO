@@ -27,7 +27,7 @@ class RTDETRTrainer(DetectionTrainer):
 
     Methods:
         get_model: Initialize and return an RT-DETR model for object detection tasks.
-        build_dataset: Build and return an RT-DETR dataset for training or validation.
+        build_dataset: Build and return an RT-DETR datasets for training or validation.
         get_validator: Return a DetectionValidator suitable for RT-DETR model validation.
 
     Examples:
@@ -58,7 +58,7 @@ class RTDETRTrainer(DetectionTrainer):
         return model
 
     def build_dataset(self, img_path: str, mode: str = "val", batch: int | None = None):
-        """Build and return an RT-DETR dataset for training or validation.
+        """Build and return an RT-DETR datasets for training or validation.
 
         Args:
             img_path (str): Path to the folder containing images.

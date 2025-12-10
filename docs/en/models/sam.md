@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Explore the revolutionary Segment Anything Model (SAM) for promptable image segmentation with zero-shot performance. Discover key features, datasets, and usage tips.
-keywords: Segment Anything, SAM, image segmentation, promptable segmentation, zero-shot performance, SA-1B dataset, advanced architecture, auto-annotation, Ultralytics, pre-trained models, instance segmentation, computer vision, AI, machine learning
+keywords: Segment Anything, SAM, image segmentation, promptable segmentation, zero-shot performance, SA-1B datasets, advanced architecture, auto-annotation, Ultralytics, pre-trained models, instance segmentation, computer vision, AI, machine learning
 ---
 
 # Segment Anything Model (SAM)

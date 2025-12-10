@@ -1,6 +1,6 @@
 ---
-description: Explore in-depth reference for utility functions in Ultralytics data module. Learn about image verification, dataset handling, and more.
-keywords: Ultralytics, dataset utils, data handling, image verification, Python, data module
+description: Explore in-depth reference for utility functions in Ultralytics data module. Learn about image verification, datasets handling, and more.
+keywords: Ultralytics, datasets utils, data handling, image verification, Python, data module
 ---
 
 # Reference for `ultralytics/data/utils.py`

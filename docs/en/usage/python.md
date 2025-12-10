@@ -332,8 +332,8 @@ from ultralytics import YOLO
 # Load the YOLO model
 model = YOLO("yolo11n.yaml")
 
-# Train the model with custom dataset
-model.train(data="path/to/your/dataset.yaml", epochs=10)
+# Train the model with custom datasets
+model.train(data="path/to/your/datasets.yaml", epochs=10)
 ```
 
 For more details on training and hyperlinks to example usage, visit our [Train Mode](../modes/train.md) page.
@@ -367,7 +367,7 @@ model = YOLO("yolo11n.yaml")
 # Train the model
 model.train(data="coco8.yaml", epochs=5)
 
-# Validate the model on a different dataset
+# Validate the model on a different datasets
 model.val(data="path/to/separate/data.yaml")
 ```
 

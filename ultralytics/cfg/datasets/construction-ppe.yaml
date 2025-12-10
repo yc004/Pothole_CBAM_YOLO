@@ -1,6 +1,6 @@
 # Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
 
-# Construction-PPE dataset by Ultralytics
+# Construction-PPE datasets by Ultralytics
 # Documentation: https://docs.ultralytics.com/datasets/detect/construction-ppe/
 # Example usage: yolo train data=construction-ppe.yaml
 # parent
@@ -9,7 +9,7 @@
 #     └── construction-ppe ← downloads here (178.4 MB)
 
 # Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
-path: construction-ppe # dataset root dir
+path: construction-ppe # datasets root dir
 train: images/train # train images (relative to 'path') 1132 images
 val: images/val # val images (relative to 'path') 143 images
 test: images/test # test images (relative to 'path') 141 images

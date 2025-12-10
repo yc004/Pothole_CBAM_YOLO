@@ -154,11 +154,11 @@ class ClassificationValidator(BaseValidator):
         """Build and return a data loader for classification validation.
 
         Args:
-            dataset_path (str | Path): Path to the dataset directory.
+            dataset_path (str | Path): Path to the datasets directory.
             batch_size (int): Number of samples per batch.
 
         Returns:
-            (torch.utils.data.DataLoader): DataLoader object for the classification validation dataset.
+            (torch.utils.data.DataLoader): DataLoader object for the classification validation datasets.
         """
         dataset = self.build_dataset(dataset_path)
         return build_dataloader(dataset, batch_size, self.args.workers, rank=-1)

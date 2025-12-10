@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the extensive ImageNet dataset and discover its role in advancing deep learning in computer vision. Access pretrained models and training examples.
-keywords: ImageNet, deep learning, visual recognition, computer vision, pretrained models, YOLO, dataset, object detection, image classification
+description: Explore the extensive ImageNet datasets and discover its role in advancing deep learning in computer vision. Access pretrained models and training examples.
+keywords: ImageNet, deep learning, visual recognition, computer vision, pretrained models, YOLO, datasets, object detection, image classification
 ---
 
 # ImageNet Dataset

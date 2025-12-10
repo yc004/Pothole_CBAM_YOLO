@@ -1,6 +1,6 @@
 ---
 description: Explore the Ultralytics BaseDataset class for efficient image loading and processing with custom transformations and caching options.
-keywords: Ultralytics, BaseDataset, image processing, data augmentation, YOLO, dataset class, image caching
+keywords: Ultralytics, BaseDataset, image processing, data augmentation, YOLO, datasets class, image caching
 ---
 
 # Reference for `ultralytics/data/base.py`

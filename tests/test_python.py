@@ -219,7 +219,7 @@ def test_train_scratch():
 
 @pytest.mark.skipif(not ONLINE, reason="environment is offline")
 def test_train_ndjson():
-    """Test training the YOLO model using NDJSON format dataset."""
+    """Test training the YOLO model using NDJSON format datasets."""
     model = YOLO(WEIGHTS_DIR / "yolo11n.pt")
     model.train(data=f"{ASSETS_URL}/coco8-ndjson.ndjson", epochs=1, imgsz=32)
 
@@ -323,7 +323,7 @@ def test_labels_and_crops():
 
 @pytest.mark.skipif(not ONLINE, reason="environment is offline")
 def test_data_utils(tmp_path):
-    """Test utility functions in ultralytics/data/utils.py, including dataset stats and auto-splitting."""
+    """Test utility functions in ultralytics/data/utils.py, including datasets stats and auto-splitting."""
     from ultralytics.data.split import autosplit
     from ultralytics.data.utils import HUBDatasetStats
     from ultralytics.utils.downloads import zip_directory
@@ -344,7 +344,7 @@ def test_data_utils(tmp_path):
 
 @pytest.mark.skipif(not ONLINE, reason="environment is offline")
 def test_data_converter(tmp_path):
-    """Test dataset conversion functions from COCO to YOLO format and class mappings."""
+    """Test datasets conversion functions from COCO to YOLO format and class mappings."""
     from ultralytics.data.converter import coco80_to_coco91_class, convert_coco
 
     download(f"{ASSETS_URL}/instances_val2017.json", dir=tmp_path)

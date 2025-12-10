@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the COCO-Seg dataset, an extension of COCO, with detailed segmentation annotations. Learn how to train YOLO models with COCO-Seg.
-keywords: COCO-Seg, dataset, YOLO models, instance segmentation, object detection, COCO dataset, YOLO11, computer vision, Ultralytics, machine learning
+description: Explore the COCO-Seg datasets, an extension of COCO, with detailed segmentation annotations. Learn how to train YOLO models with COCO-Seg.
+keywords: COCO-Seg, datasets, YOLO models, instance segmentation, object detection, COCO datasets, YOLO11, computer vision, Ultralytics, machine learning
 ---
 
 # COCO-Seg Dataset

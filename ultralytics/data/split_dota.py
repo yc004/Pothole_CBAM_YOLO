@@ -64,7 +64,7 @@ def bbox_iof(polygon1: np.ndarray, bbox2: np.ndarray, eps: float = 1e-6) -> np.n
 
 
 def load_yolo_dota(data_root: str, split: str = "train") -> list[dict[str, Any]]:
-    """Load DOTA dataset annotations and image information.
+    """Load DOTA datasets annotations and image information.
 
     Args:
         data_root (str): Data root directory.
@@ -74,7 +74,7 @@ def load_yolo_dota(data_root: str, split: str = "train") -> list[dict[str, Any]]
         (list[dict[str, Any]]): List of annotation dictionaries containing image information.
 
     Notes:
-        The directory structure assumed for the DOTA dataset:
+        The directory structure assumed for the DOTA datasets:
             - data_root
                 - images
                     - train
@@ -183,7 +183,7 @@ def crop_and_save(
         allow_background_images (bool, optional): Whether to include background images without labels.
 
     Notes:
-        The directory structure assumed for the DOTA dataset:
+        The directory structure assumed for the DOTA datasets:
             - data_root
                 - images
                     - train
@@ -222,17 +222,17 @@ def split_images_and_labels(
     crop_sizes: tuple[int, ...] = (1024,),
     gaps: tuple[int, ...] = (200,),
 ) -> None:
-    """Split both images and labels for a given dataset split.
+    """Split both images and labels for a given datasets split.
 
     Args:
-        data_root (str): Root directory of the dataset.
-        save_dir (str): Directory to save the split dataset.
+        data_root (str): Root directory of the datasets.
+        save_dir (str): Directory to save the split datasets.
         split (str, optional): The split data set, could be 'train' or 'val'.
         crop_sizes (tuple[int, ...], optional): Tuple of crop sizes.
         gaps (tuple[int, ...], optional): Tuple of gaps between crops.
 
     Notes:
-        The directory structure assumed for the DOTA dataset:
+        The directory structure assumed for the DOTA datasets:
             - data_root
                 - images
                     - split
@@ -260,17 +260,17 @@ def split_images_and_labels(
 def split_trainval(
     data_root: str, save_dir: str, crop_size: int = 1024, gap: int = 200, rates: tuple[float, ...] = (1.0,)
 ) -> None:
-    """Split train and val sets of DOTA dataset with multiple scaling rates.
+    """Split train and val sets of DOTA datasets with multiple scaling rates.
 
     Args:
-        data_root (str): Root directory of the dataset.
-        save_dir (str): Directory to save the split dataset.
+        data_root (str): Root directory of the datasets.
+        save_dir (str): Directory to save the split datasets.
         crop_size (int, optional): Base crop size.
         gap (int, optional): Base gap between crops.
         rates (tuple[float, ...], optional): Scaling rates for crop_size and gap.
 
     Notes:
-        The directory structure assumed for the DOTA dataset:
+        The directory structure assumed for the DOTA datasets:
             - data_root
                 - images
                     - train
@@ -298,17 +298,17 @@ def split_trainval(
 def split_test(
     data_root: str, save_dir: str, crop_size: int = 1024, gap: int = 200, rates: tuple[float, ...] = (1.0,)
 ) -> None:
-    """Split test set of DOTA dataset, labels are not included within this set.
+    """Split test set of DOTA datasets, labels are not included within this set.
 
     Args:
-        data_root (str): Root directory of the dataset.
-        save_dir (str): Directory to save the split dataset.
+        data_root (str): Root directory of the datasets.
+        save_dir (str): Directory to save the split datasets.
         crop_size (int, optional): Base crop size.
         gap (int, optional): Base gap between crops.
         rates (tuple[float, ...], optional): Scaling rates for crop_size and gap.
 
     Notes:
-        The directory structure assumed for the DOTA dataset:
+        The directory structure assumed for the DOTA datasets:
             - data_root
                 - images
                     - test

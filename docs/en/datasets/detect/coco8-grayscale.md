@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the Ultralytics COCO8-Grayscale dataset, a versatile and manageable set of 8 images perfect for testing object detection models and training pipelines.
-keywords: COCO8-Grayscale, Ultralytics, dataset, object detection, YOLO11, training, validation, machine learning, computer vision
+description: Explore the Ultralytics COCO8-Grayscale datasets, a versatile and manageable set of 8 images perfect for testing object detection models and training pipelines.
+keywords: COCO8-Grayscale, Ultralytics, datasets, object detection, YOLO11, training, validation, machine learning, computer vision
 ---
 
 # COCO8-Grayscale Dataset

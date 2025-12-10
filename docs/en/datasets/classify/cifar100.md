@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the CIFAR-100 dataset, consisting of 60,000 32x32 color images across 100 classes. Ideal for machine learning and computer vision tasks.
-keywords: CIFAR-100, dataset, machine learning, computer vision, image classification, deep learning, YOLO, training, testing, Alex Krizhevsky
+description: Explore the CIFAR-100 datasets, consisting of 60,000 32x32 color images across 100 classes. Ideal for machine learning and computer vision tasks.
+keywords: CIFAR-100, datasets, machine learning, computer vision, image classification, deep learning, YOLO, training, testing, Alex Krizhevsky
 ---
 
 # CIFAR-100 Dataset

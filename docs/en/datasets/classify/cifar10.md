@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the CIFAR-10 dataset, featuring 60,000 color images in 10 classes. Learn about its structure, applications, and how to train models using YOLO.
-keywords: CIFAR-10, dataset, machine learning, computer vision, image classification, YOLO, deep learning, neural networks
+description: Explore the CIFAR-10 datasets, featuring 60,000 color images in 10 classes. Learn about its structure, applications, and how to train models using YOLO.
+keywords: CIFAR-10, datasets, machine learning, computer vision, image classification, YOLO, deep learning, neural networks
 ---
 
 # CIFAR-10 Dataset

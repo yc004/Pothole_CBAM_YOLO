@@ -16,9 +16,9 @@ __all__ = ("RTDETRValidator",)  # tuple or list
 
 
 class RTDETRDataset(YOLODataset):
-    """Real-Time DEtection and TRacking (RT-DETR) dataset class extending the base YOLODataset class.
+    """Real-Time DEtection and TRacking (RT-DETR) datasets class extending the base YOLODataset class.
 
-    This specialized dataset class is designed for use with the RT-DETR object detection model and is optimized for
+    This specialized datasets class is designed for use with the RT-DETR object detection model and is optimized for
     real-time detection and tracking tasks.
 
     Attributes:
@@ -29,30 +29,30 @@ class RTDETRDataset(YOLODataset):
         imgsz (int): Target image size for training.
 
     Methods:
-        load_image: Load one image from dataset index.
-        build_transforms: Build transformation pipeline for the dataset.
+        load_image: Load one image from datasets index.
+        build_transforms: Build transformation pipeline for the datasets.
 
     Examples:
-        Initialize an RT-DETR dataset
-        >>> dataset = RTDETRDataset(img_path="path/to/images", imgsz=640)
-        >>> image, hw = dataset.load_image(0)
+        Initialize an RT-DETR datasets
+        >>> datasets = RTDETRDataset(img_path="path/to/images", imgsz=640)
+        >>> image, hw = datasets.load_image(0)
     """
 
     def __init__(self, *args, data=None, **kwargs):
         """Initialize the RTDETRDataset class by inheriting from the YOLODataset class.
 
-        This constructor sets up a dataset specifically optimized for the RT-DETR (Real-Time DEtection and TRacking)
+        This constructor sets up a datasets specifically optimized for the RT-DETR (Real-Time DEtection and TRacking)
         model, building upon the base YOLODataset functionality.
 
         Args:
             *args (Any): Variable length argument list passed to the parent YOLODataset class.
-            data (dict | None): Dictionary containing dataset information. If None, default values will be used.
+            data (dict | None): Dictionary containing datasets information. If None, default values will be used.
             **kwargs (Any): Additional keyword arguments passed to the parent YOLODataset class.
         """
         super().__init__(*args, data=data, **kwargs)
 
     def load_image(self, i, rect_mode=False):
-        """Load one image from dataset index 'i'.
+        """Load one image from datasets index 'i'.
 
         Args:
             i (int): Index of the image to load.
@@ -63,14 +63,14 @@ class RTDETRDataset(YOLODataset):
             resized_hw (tuple): Height and width of the resized image with shape (2,).
 
         Examples:
-            Load an image from the dataset
-            >>> dataset = RTDETRDataset(img_path="path/to/images")
-            >>> image, hw = dataset.load_image(0)
+            Load an image from the datasets
+            >>> datasets = RTDETRDataset(img_path="path/to/images")
+            >>> image, hw = datasets.load_image(0)
         """
         return super().load_image(i=i, rect_mode=rect_mode)
 
     def build_transforms(self, hyp=None):
-        """Build transformation pipeline for the dataset.
+        """Build transformation pipeline for the datasets.
 
         Args:
             hyp (dict, optional): Hyperparameters for transformations.
@@ -104,7 +104,7 @@ class RTDETRValidator(DetectionValidator):
     """RTDETRValidator extends the DetectionValidator class to provide validation capabilities specifically tailored for
     the RT-DETR (Real-Time DETR) object detection model.
 
-    The class allows building of an RTDETR-specific dataset for validation, applies Non-maximum suppression for
+    The class allows building of an RTDETR-specific datasets for validation, applies Non-maximum suppression for
     post-processing, and updates evaluation metrics accordingly.
 
     Attributes:

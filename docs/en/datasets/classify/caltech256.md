@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the Caltech-256 dataset, featuring 30,000 images across 257 categories, ideal for training and testing object recognition algorithms.
-keywords: Caltech-256 dataset, object classification, image dataset, machine learning, computer vision, deep learning, YOLO, training dataset
+description: Explore the Caltech-256 datasets, featuring 30,000 images across 257 categories, ideal for training and testing object recognition algorithms.
+keywords: Caltech-256 datasets, object classification, image datasets, machine learning, computer vision, deep learning, YOLO, training datasets
 ---
 
 # Caltech-256 Dataset

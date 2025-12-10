@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       chatExamples: ["What's new in SAM 3?", "How can I get started with YOLO?", "How does Enterprise Licensing work?"],
       searchExamples: [
         "YOLO11 quickstart",
-        "custom dataset training",
+        "custom datasets training",
         "model export formats",
         "object detection tutorial",
         "hyperparameter tuning",

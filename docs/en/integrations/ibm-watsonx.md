@@ -193,7 +193,7 @@ To reorganize the data set directory, we can run the following script:
 Next, we need to modify the .yaml file for the data set. This is the setup we will use in our .yaml file. Class ID numbers start from 0:
 
 ```yaml
-path: /path/to/dataset/directory # root directory for dataset
+path: /path/to/datasets/directory # root directory for datasets
 train: train/images # train images subdirectory
 val: train/images # validation images subdirectory
 test: test/images # test images subdirectory
@@ -393,7 +393,7 @@ def organize_files(directory):
 
 
 if __name__ == "__main__":
-    directory = f"{work_dir}/trash_ICRA19/dataset"
+    directory = f"{work_dir}/trash_ICRA19/datasets"
     organize_files(directory)
 ```
 

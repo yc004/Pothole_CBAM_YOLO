@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the comprehensive Argoverse dataset by Argo AI for 3D tracking, motion forecasting, and stereo depth estimation in autonomous driving research.
-keywords: Argoverse dataset, autonomous driving, 3D tracking, motion forecasting, stereo depth estimation, Argo AI, LiDAR point clouds, high-resolution images, HD maps
+description: Explore the comprehensive Argoverse datasets by Argo AI for 3D tracking, motion forecasting, and stereo depth estimation in autonomous driving research.
+keywords: Argoverse datasets, autonomous driving, 3D tracking, motion forecasting, stereo depth estimation, Argo AI, LiDAR point clouds, high-resolution images, HD maps
 ---
 
 # Argoverse Dataset

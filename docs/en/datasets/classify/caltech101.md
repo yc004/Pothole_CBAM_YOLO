@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the widely-used Caltech-101 dataset with 9,000 images across 101 categories. Ideal for object recognition tasks in machine learning and computer vision.
-keywords: Caltech-101, dataset, object recognition, machine learning, computer vision, YOLO, deep learning, research, AI
+description: Explore the widely-used Caltech-101 datasets with 9,000 images across 101 categories. Ideal for object recognition tasks in machine learning and computer vision.
+keywords: Caltech-101, datasets, object recognition, machine learning, computer vision, YOLO, deep learning, research, AI
 ---
 
 # Caltech-101 Dataset

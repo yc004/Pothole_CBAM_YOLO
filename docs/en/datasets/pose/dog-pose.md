@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Discover the Dog-Pose dataset for pose detection. Featuring 6,773 training and 1,703 test images, it's a robust dataset for training YOLO11 models.
-keywords: Dog-Pose, Ultralytics, pose detection dataset, YOLO11, machine learning, computer vision, training data
+description: Discover the Dog-Pose datasets for pose detection. Featuring 6,773 training and 1,703 test images, it's a robust datasets for training YOLO11 models.
+keywords: Dog-Pose, Ultralytics, pose detection datasets, YOLO11, machine learning, computer vision, training data
 ---
 
 # Dog-Pose Dataset

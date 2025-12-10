@@ -36,7 +36,7 @@ from ultralytics.utils.checks import check_file, check_font, is_ascii
 from ultralytics.utils.downloads import download, safe_download, unzip_file
 from ultralytics.utils.ops import segments2boxes
 
-HELP_URL = "See https://docs.ultralytics.com/datasets for dataset formatting guidance."
+HELP_URL = "See https://docs.ultralytics.com/datasets for datasets formatting guidance."
 IMG_FORMATS = {"bmp", "dng", "jpeg", "jpg", "mpo", "png", "tif", "tiff", "webp", "pfm", "heic"}  # image suffixes
 VID_FORMATS = {"asf", "avi", "gif", "m4v", "mkv", "mov", "mp4", "mpeg", "mpg", "ts", "wmv", "webm"}  # video suffixes
 FORMATS_HELP_MSG = f"Supported formats are:\nimages: {IMG_FORMATS}\nvideos: {VID_FORMATS}"
@@ -51,9 +51,9 @@ def img2label_paths(img_paths: list[str]) -> list[str]:
 def check_file_speeds(
     files: list[str], threshold_ms: float = 10, threshold_mb: float = 50, max_files: int = 5, prefix: str = ""
 ):
-    """Check dataset file access speed and provide performance feedback.
+    """Check datasets file access speed and provide performance feedback.
 
-    This function tests the access speed of dataset files by measuring ping (stat call) time and read speed. It samples
+    This function tests the access speed of datasets files by measuring ping (stat call) time and read speed. It samples
     up to 5 files from the provided list and warns if access times exceed the threshold.
 
     Args:
@@ -65,7 +65,7 @@ def check_file_speeds(
 
     Examples:
         >>> from pathlib import Path
-        >>> image_files = list(Path("dataset/images").glob("*.jpg"))
+        >>> image_files = list(Path("datasets/images").glob("*.jpg"))
         >>> check_file_speeds(image_files, threshold_ms=15)
     """
     if not files:
@@ -221,7 +221,7 @@ def verify_image_label(args: tuple) -> list:
                 # All labels
                 max_cls = 0 if single_cls else lb[:, 0].max()  # max label count
                 assert max_cls < num_cls, (
-                    f"Label class {int(max_cls)} exceeds dataset class count {num_cls}. "
+                    f"Label class {int(max_cls)} exceeds datasets class count {num_cls}. "
                     f"Possible class labels are 0-{num_cls - 1}"
                 )
                 _, i = np.unique(lb, axis=0, return_index=True)
@@ -364,7 +364,7 @@ def polygons2masks_overlap(
 
 
 def find_dataset_yaml(path: Path) -> Path:
-    """Find and return the YAML file associated with a Detect, Segment or Pose dataset.
+    """Find and return the YAML file associated with a Detect, Segment or Pose datasets.
 
     This function searches for a YAML file at the root level of the provided directory first, and if not found, it
     performs a recursive search. It prefers YAML files that have the same stem as the provided path.
@@ -384,18 +384,18 @@ def find_dataset_yaml(path: Path) -> Path:
 
 
 def check_det_dataset(dataset: str, autodownload: bool = True) -> dict[str, Any]:
-    """Download, verify, and/or unzip a dataset if not found locally.
+    """Download, verify, and/or unzip a datasets if not found locally.
 
-    This function checks the availability of a specified dataset, and if not found, it has the option to download and
-    unzip the dataset. It then reads and parses the accompanying YAML data, ensuring key requirements are met and also
-    resolves paths related to the dataset.
+    This function checks the availability of a specified datasets, and if not found, it has the option to download and
+    unzip the datasets. It then reads and parses the accompanying YAML data, ensuring key requirements are met and also
+    resolves paths related to the datasets.
 
     Args:
-        dataset (str): Path to the dataset or dataset descriptor (like a YAML file).
-        autodownload (bool, optional): Whether to automatically download the dataset if not found.
+        dataset (str): Path to the datasets or datasets descriptor (like a YAML file).
+        autodownload (bool, optional): Whether to automatically download the datasets if not found.
 
     Returns:
-        (dict[str, Any]): Parsed dataset information and paths.
+        (dict[str, Any]): Parsed datasets information and paths.
     """
     file = check_file(dataset)
 
@@ -431,7 +431,7 @@ def check_det_dataset(dataset: str, autodownload: bool = True) -> dict[str, Any]
     data["channels"] = data.get("channels", 3)  # get image channels, default to 3
 
     # Resolve paths
-    path = Path(extract_dir or data.get("path") or Path(data.get("yaml_file", "")).parent)  # dataset root
+    path = Path(extract_dir or data.get("path") or Path(data.get("yaml_file", "")).parent)  # datasets root
     if not path.exists() and not path.is_absolute():
         path = (DATASETS_DIR / path).resolve()  # path relative to DATASETS_DIR
 
@@ -452,13 +452,13 @@ def check_det_dataset(dataset: str, autodownload: bool = True) -> dict[str, Any]
     if val:
         val = [Path(x).resolve() for x in (val if isinstance(val, list) else [val])]  # val path
         if not all(x.exists() for x in val):
-            name = clean_url(dataset)  # dataset name with URL auth stripped
+            name = clean_url(dataset)  # datasets name with URL auth stripped
             LOGGER.info("")
             m = f"Dataset '{name}' images not found, missing path '{next(x for x in val if not x.exists())}'"
             if s and autodownload:
                 LOGGER.warning(m)
             else:
-                m += f"\nNote dataset download directory is '{DATASETS_DIR}'. You can update this in '{SETTINGS_FILE}'"
+                m += f"\nNote datasets download directory is '{DATASETS_DIR}'. You can update this in '{SETTINGS_FILE}'"
                 raise FileNotFoundError(m)
             t = time.time()
             r = None  # success
@@ -478,25 +478,25 @@ def check_det_dataset(dataset: str, autodownload: bool = True) -> dict[str, Any]
 
 
 def check_cls_dataset(dataset: str | Path, split: str = "") -> dict[str, Any]:
-    """Check a classification dataset such as Imagenet.
+    """Check a classification datasets such as Imagenet.
 
-    This function accepts a `dataset` name and attempts to retrieve the corresponding dataset information. If the
-    dataset is not found locally, it attempts to download the dataset from the internet and save it locally.
+    This function accepts a `datasets` name and attempts to retrieve the corresponding datasets information. If the
+    datasets is not found locally, it attempts to download the datasets from the internet and save it locally.
 
     Args:
-        dataset (str | Path): The name of the dataset.
-        split (str, optional): The split of the dataset. Either 'val', 'test', or ''.
+        dataset (str | Path): The name of the datasets.
+        split (str, optional): The split of the datasets. Either 'val', 'test', or ''.
 
     Returns:
         (dict[str, Any]): A dictionary containing the following keys:
 
-            - 'train' (Path): The directory path containing the training set of the dataset.
-            - 'val' (Path): The directory path containing the validation set of the dataset.
-            - 'test' (Path): The directory path containing the test set of the dataset.
-            - 'nc' (int): The number of classes in the dataset.
-            - 'names' (dict[int, str]): A dictionary of class names in the dataset.
+            - 'train' (Path): The directory path containing the training set of the datasets.
+            - 'val' (Path): The directory path containing the validation set of the datasets.
+            - 'test' (Path): The directory path containing the test set of the datasets.
+            - 'nc' (int): The number of classes in the datasets.
+            - 'names' (dict[int, str]): A dictionary of class names in the datasets.
     """
-    # Download (optional if dataset=https://file.zip is passed directly)
+    # Download (optional if datasets=https://file.zip is passed directly)
     if str(dataset).startswith(("http:/", "https:/")):
         dataset = safe_download(dataset, dir=DATASETS_DIR, unzip=True, delete=False)
     elif str(dataset).endswith((".zip", ".tar", ".gz")):
@@ -574,31 +574,31 @@ def check_cls_dataset(dataset: str | Path, split: str = "") -> dict[str, Any]:
 
 
 class HUBDatasetStats:
-    """A class for generating HUB dataset JSON and `-hub` dataset directory.
+    """A class for generating HUB datasets JSON and `-hub` datasets directory.
 
     Args:
         path (str): Path to data.yaml or data.zip (with data.yaml inside data.zip).
         task (str): Dataset task. Options are 'detect', 'segment', 'pose', 'classify'.
-        autodownload (bool): Attempt to download dataset if not found locally.
+        autodownload (bool): Attempt to download datasets if not found locally.
 
     Attributes:
         task (str): Dataset task type.
-        hub_dir (Path): Directory path for HUB dataset files.
+        hub_dir (Path): Directory path for HUB datasets files.
         im_dir (Path): Directory path for compressed images.
-        stats (dict): Statistics dictionary containing dataset information.
+        stats (dict): Statistics dictionary containing datasets information.
         data (dict): Dataset configuration data.
 
     Methods:
-        get_json: Return dataset JSON for Ultralytics HUB.
+        get_json: Return datasets JSON for Ultralytics HUB.
         process_images: Compress images for Ultralytics HUB.
 
     Examples:
         >>> from ultralytics.data.utils import HUBDatasetStats
-        >>> stats = HUBDatasetStats("path/to/coco8.zip", task="detect")  # detect dataset
-        >>> stats = HUBDatasetStats("path/to/coco8-seg.zip", task="segment")  # segment dataset
-        >>> stats = HUBDatasetStats("path/to/coco8-pose.zip", task="pose")  # pose dataset
-        >>> stats = HUBDatasetStats("path/to/dota8.zip", task="obb")  # OBB dataset
-        >>> stats = HUBDatasetStats("path/to/imagenet10.zip", task="classify")  # classification dataset
+        >>> stats = HUBDatasetStats("path/to/coco8.zip", task="detect")  # detect datasets
+        >>> stats = HUBDatasetStats("path/to/coco8-seg.zip", task="segment")  # segment datasets
+        >>> stats = HUBDatasetStats("path/to/coco8-pose.zip", task="pose")  # pose datasets
+        >>> stats = HUBDatasetStats("path/to/dota8.zip", task="obb")  # OBB datasets
+        >>> stats = HUBDatasetStats("path/to/imagenet10.zip", task="classify")  # classification datasets
         >>> stats.get_json(save=True)
         >>> stats.process_images()
 
@@ -610,7 +610,7 @@ class HUBDatasetStats:
     def __init__(self, path: str = "coco8.yaml", task: str = "detect", autodownload: bool = False):
         """Initialize class."""
         path = Path(path).resolve()
-        LOGGER.info(f"Starting HUB dataset checks for {path}....")
+        LOGGER.info(f"Starting HUB datasets checks for {path}....")
 
         self.task = task  # detect, segment, pose, classify, obb
         if self.task == "classify":
@@ -622,7 +622,7 @@ class HUBDatasetStats:
             try:
                 # Load YAML with checks
                 data = YAML.load(yaml_path)
-                data["path"] = ""  # strip path since YAML should be in dataset root for all HUB datasets
+                data["path"] = ""  # strip path since YAML should be in datasets root for all HUB datasets
                 YAML.save(yaml_path, data)
                 data = check_det_dataset(yaml_path, autodownload)  # dict
                 data["path"] = data_dir  # YAML path should be set to '' (relative) or parent (absolute)
@@ -647,10 +647,10 @@ class HUBDatasetStats:
 
     def _hub_ops(self, f: str):
         """Save a compressed image for HUB previews."""
-        compress_one_image(f, self.im_dir / Path(f).name)  # save to dataset-hub
+        compress_one_image(f, self.im_dir / Path(f).name)  # save to datasets-hub
 
     def get_json(self, save: bool = False, verbose: bool = False) -> dict:
-        """Return dataset JSON for Ultralytics HUB."""
+        """Return datasets JSON for Ultralytics HUB."""
 
         def _round(labels):
             """Update labels to integer class and 4 decimal place floats."""
@@ -662,7 +662,7 @@ class HUBDatasetStats:
                 n, nk, nd = labels["keypoints"].shape
                 coordinates = np.concatenate((labels["bboxes"], labels["keypoints"].reshape(n, nk * nd)), 1)
             else:
-                raise ValueError(f"Undefined dataset task={self.task}.")
+                raise ValueError(f"Undefined datasets task={self.task}.")
             zipped = zip(labels["cls"], coordinates)
             return [[int(c[0]), *(round(float(x), 4) for x in points)] for c, points in zipped]
 
@@ -677,7 +677,7 @@ class HUBDatasetStats:
             if not files:  # no images
                 continue
 
-            # Get dataset statistics
+            # Get datasets statistics
             if self.task == "classify":
                 from torchvision.datasets import ImageFolder  # scope for faster 'import ultralytics'
 
@@ -714,7 +714,7 @@ class HUBDatasetStats:
 
         # Save, print and return
         if save:
-            self.hub_dir.mkdir(parents=True, exist_ok=True)  # makes dataset-hub/
+            self.hub_dir.mkdir(parents=True, exist_ok=True)  # makes datasets-hub/
             stats_path = self.hub_dir / "stats.json"
             LOGGER.info(f"Saving {stats_path.resolve()}...")
             with open(stats_path, "w", encoding="utf-8") as f:
@@ -727,7 +727,7 @@ class HUBDatasetStats:
         """Compress images for Ultralytics HUB."""
         from ultralytics.data import YOLODataset  # ClassificationDataset
 
-        self.im_dir.mkdir(parents=True, exist_ok=True)  # makes dataset-hub/images/
+        self.im_dir.mkdir(parents=True, exist_ok=True)  # makes datasets-hub/images/
         for split in "train", "val", "test":
             if self.data.get(split) is None:
                 continue
@@ -753,7 +753,7 @@ def compress_one_image(f: str, f_new: str | None = None, max_dim: int = 1920, qu
     Examples:
         >>> from pathlib import Path
         >>> from ultralytics.data.utils import compress_one_image
-        >>> for f in Path("path/to/dataset").rglob("*.jpg"):
+        >>> for f in Path("path/to/datasets").rglob("*.jpg"):
         >>>    compress_one_image(f)
     """
     try:  # use PIL
@@ -786,7 +786,7 @@ def load_dataset_cache_file(path: Path) -> dict:
 
 
 def save_dataset_cache_file(prefix: str, path: Path, x: dict, version: str):
-    """Save an Ultralytics dataset *.cache dictionary x to path."""
+    """Save an Ultralytics datasets *.cache dictionary x to path."""
     x["version"] = version  # add cache version
     if is_dir_writeable(path.parent):
         if path.exists():

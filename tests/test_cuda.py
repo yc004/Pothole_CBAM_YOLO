@@ -110,7 +110,7 @@ def test_export_engine_matrix(task, dynamic, int8, half, batch):
 
 @pytest.mark.skipif(not DEVICES, reason="No CUDA devices available")
 def test_train():
-    """Test model training on a minimal dataset using available CUDA devices."""
+    """Test model training on a minimal datasets using available CUDA devices."""
     device = tuple(DEVICES) if len(DEVICES) > 1 else DEVICES[0]
     # NVIDIA Jetson only has one GPU and therefore skipping checks
     if not IS_JETSON:

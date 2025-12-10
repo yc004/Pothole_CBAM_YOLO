@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Explore essential utilities in the Ultralytics package to speed up and enhance your workflows. Learn about data processing, annotations, conversions, and more.
-keywords: Ultralytics, utilities, data processing, auto annotation, YOLO, dataset conversion, bounding boxes, image compression, machine learning tools
+keywords: Ultralytics, utilities, data processing, auto annotation, YOLO, datasets conversion, bounding boxes, image compression, machine learning tools
 ---
 
 # Simple Utilities
@@ -77,8 +77,8 @@ The converted masks will be saved in the specified output directory.
 ```python
 from ultralytics.data.converter import convert_segment_masks_to_yolo_seg
 
-# The classes here is the total classes in the dataset.
-# for COCO dataset we have 80 classes.
+# The classes here is the total classes in the datasets.
+# for COCO datasets we have 80 classes.
 convert_segment_masks_to_yolo_seg(masks_dir="path/to/masks_dir", output_dir="path/to/output_dir", classes=80)
 ```
 
@@ -188,7 +188,7 @@ from pathlib import Path
 
 from ultralytics.data.utils import compress_one_image
 
-for f in Path("path/to/dataset").rglob("*.jpg"):
+for f in Path("path/to/datasets").rglob("*.jpg"):
     compress_one_image(f)
 ```
 

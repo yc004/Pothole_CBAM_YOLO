@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Discover Ultralytics Explorer for semantic search, SQL queries, vector similarity, and natural language dataset exploration. Enhance your CV datasets effortlessly.
-keywords: Ultralytics Explorer, CV datasets, semantic search, SQL queries, vector similarity, dataset visualization, python API, machine learning, computer vision
+description: Discover Ultralytics Explorer for semantic search, SQL queries, vector similarity, and natural language datasets exploration. Enhance your CV datasets effortlessly.
+keywords: Ultralytics Explorer, CV datasets, semantic search, SQL queries, vector similarity, datasets visualization, python API, machine learning, computer vision
 ---
 
 # Ultralytics Explorer

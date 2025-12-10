@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the Roboflow 100 dataset featuring 100 diverse datasets designed to test object detection models across various domains, from healthcare to video games.
-keywords: Roboflow 100, Ultralytics, object detection, dataset, benchmarking, machine learning, computer vision, diverse datasets, model evaluation
+description: Explore the Roboflow 100 datasets featuring 100 diverse datasets designed to test object detection models across various domains, from healthcare to video games.
+keywords: Roboflow 100, Ultralytics, object detection, datasets, benchmarking, machine learning, computer vision, diverse datasets, model evaluation
 ---
 
 # Roboflow 100 Dataset

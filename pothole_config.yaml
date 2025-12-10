@@ -1,0 +1,11 @@
+path: D:\Desktop\教材\深度学习\大作业\yolov8\datasets\New_pothole_detection.v2i.yolov8
+
+# 相对路径配置 (Roboflow 标准结构，无需修改)
+train: train/images
+val: valid/images
+test: test/images
+
+# 类别信息 (来源于原始 data.yaml)
+nc: 1
+names:
+  0: Pothole

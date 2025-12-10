@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the ImageNette dataset, a subset of ImageNet with 10 classes for efficient training and evaluation of image classification models. Ideal for ML and CV projects.
-keywords: ImageNette dataset, ImageNet subset, image classification, machine learning, deep learning, YOLO, Convolutional Neural Networks, ML dataset, education, training
+description: Explore the ImageNette datasets, a subset of ImageNet with 10 classes for efficient training and evaluation of image classification models. Ideal for ML and CV projects.
+keywords: ImageNette datasets, ImageNet subset, image classification, machine learning, deep learning, YOLO, Convolutional Neural Networks, ML datasets, education, training
 ---
 
 # ImageNette Dataset

@@ -178,7 +178,7 @@ Replace `/path/on/host` with the actual path on your machine and `/path/in/conta
 You are now inside the running YOLOv5 Docker container! From here, you can execute standard YOLOv5 commands for various [Machine Learning](https://www.ultralytics.com/glossary/machine-learning-ml) and [Deep Learning](https://www.ultralytics.com/glossary/deep-learning-dl) tasks like [Object Detection](https://www.ultralytics.com/glossary/object-detection).
 
 ```bash
-# Train a YOLOv5 model on your custom dataset (ensure data is mounted or downloaded)
+# Train a YOLOv5 model on your custom datasets (ensure data is mounted or downloaded)
 python train.py --data your_dataset.yaml --weights yolov5s.pt --img 640 # Start training
 
 # Validate the trained model's performance (Precision, Recall, mAP)

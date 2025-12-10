@@ -1,6 +1,6 @@
 # Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
 """
-Train a model on a dataset.
+Train a model on a datasets.
 
 Usage:
     $ yolo mode=train model=yolo11n.pt data=coco8.yaml imgsz=640 epochs=100 batch=16
@@ -159,7 +159,7 @@ class BaseTrainer:
 
         # Model and Dataset
         self.model = check_model_file_from_stem(self.args.model)  # add suffix, i.e. yolo11n -> yolo11n.pt
-        with torch_distributed_zero_first(LOCAL_RANK):  # avoid auto-downloading dataset multiple times
+        with torch_distributed_zero_first(LOCAL_RANK):  # avoid auto-downloading datasets multiple times
             self.data = self.get_dataset()
 
         self.ema = None
@@ -323,7 +323,7 @@ class BaseTrainer:
         self.train_loader = self.get_dataloader(
             self.data["train"], batch_size=batch_size, rank=LOCAL_RANK, mode="train"
         )
-        # Note: When training DOTA dataset, double batch size could get OOM on images with >2000 objects.
+        # Note: When training DOTA datasets, double batch size could get OOM on images with >2000 objects.
         self.test_loader = self.get_dataloader(
             self.data.get("val") or self.data.get("test"),
             batch_size=batch_size if self.args.task == "obb" else batch_size * 2,
@@ -626,7 +626,7 @@ class BaseTrainer:
         """Get train and validation datasets from data dictionary.
 
         Returns:
-            (dict): A dictionary containing the training/validation/test dataset and category names.
+            (dict): A dictionary containing the training/validation/test datasets and category names.
         """
         try:
             if self.args.task == "classify":
@@ -722,7 +722,7 @@ class BaseTrainer:
         raise NotImplementedError("get_dataloader function not implemented in trainer")
 
     def build_dataset(self, img_path, mode="train", batch=None):
-        """Build dataset."""
+        """Build datasets."""
         raise NotImplementedError("build_dataset function not implemented in trainer")
 
     def label_loss_items(self, loss_items=None, prefix="train"):
@@ -798,7 +798,7 @@ class BaseTrainer:
                 exists = isinstance(resume, (str, Path)) and Path(resume).exists()
                 last = Path(check_file(resume) if exists else get_latest_run())
 
-                # Check that resume data YAML exists, otherwise strip to force re-download of dataset
+                # Check that resume data YAML exists, otherwise strip to force re-download of datasets
                 ckpt_args = load_checkpoint(last)[0].args
                 if not isinstance(ckpt_args["data"], dict) and not Path(ckpt_args["data"]).exists():
                     ckpt_args["data"] = self.args.data

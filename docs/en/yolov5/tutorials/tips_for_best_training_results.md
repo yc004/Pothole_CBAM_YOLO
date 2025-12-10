@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Discover how to achieve optimal mAP and training results using YOLOv5. Learn essential dataset, model selection, and training settings best practices.
-keywords: YOLOv5 training, mAP, dataset best practices, model selection, training settings, YOLOv5 guide, YOLOv5 tutorial, machine learning
+description: Discover how to achieve optimal mAP and training results using YOLOv5. Learn essential datasets, model selection, and training settings best practices.
+keywords: YOLOv5 training, mAP, datasets best practices, model selection, training settings, YOLOv5 guide, YOLOv5 tutorial, machine learning
 ---
 
 # Tips for Best YOLOv5 Training Results

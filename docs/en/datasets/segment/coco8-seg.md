@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Discover the versatile and manageable COCO8-Seg dataset by Ultralytics, ideal for testing and debugging segmentation models or new detection approaches.
-keywords: COCO8-Seg, Ultralytics, segmentation dataset, YOLO11, COCO 2017, model training, computer vision, dataset configuration
+description: Discover the versatile and manageable COCO8-Seg datasets by Ultralytics, ideal for testing and debugging segmentation models or new detection approaches.
+keywords: COCO8-Seg, Ultralytics, segmentation datasets, YOLO11, COCO 2017, model training, computer vision, datasets configuration
 ---
 
 # COCO8-Seg Dataset

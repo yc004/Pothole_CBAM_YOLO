@@ -59,10 +59,10 @@ class Model(torch.nn.Module):
         fuse: Fuse Conv2d and BatchNorm2d layers for optimized inference.
         predict: Perform object detection predictions.
         track: Perform object tracking.
-        val: Validate the model on a dataset.
+        val: Validate the model on a datasets.
         benchmark: Benchmark the model on various export formats.
         export: Export the model to different formats.
-        train: Train the model on a dataset.
+        train: Train the model on a datasets.
         tune: Perform hyperparameter tuning.
         _apply: Apply a function to the model's tensors.
         add_callback: Add a callback function for an event.
@@ -582,7 +582,7 @@ class Model(torch.nn.Module):
         validator=None,
         **kwargs: Any,
     ):
-        """Validate the model using a specified dataset and validation configuration.
+        """Validate the model using a specified datasets and validation configuration.
 
         This method facilitates the model validation process, allowing for customization through various settings. It
         supports validation with a custom validator or the default validation approach. The method combines default
@@ -621,7 +621,7 @@ class Model(torch.nn.Module):
         additional user-provided keyword arguments.
 
         Args:
-            data (str): Path to the dataset for benchmarking.
+            data (str): Path to the datasets for benchmarking.
             verbose (bool): Whether to print detailed benchmark information.
             format (str): Export format name for specific benchmarking.
             **kwargs (Any): Arbitrary keyword arguments to customize the benchmarking process. Common options include:
@@ -713,7 +713,7 @@ class Model(torch.nn.Module):
         trainer=None,
         **kwargs: Any,
     ):
-        """Train the model using the specified dataset and training configuration.
+        """Train the model using the specified datasets and training configuration.
 
         This method facilitates model training with a range of customizable settings. It supports training with a custom
         trainer or the default training approach. The method handles scenarios such as resuming training from a
@@ -726,7 +726,7 @@ class Model(torch.nn.Module):
         Args:
             trainer (BaseTrainer, optional): Custom trainer instance for model training. If None, uses default.
             **kwargs (Any): Arbitrary keyword arguments for training configuration. Common options include:
-                - data (str): Path to dataset configuration file.
+                - data (str): Path to datasets configuration file.
                 - epochs (int): Number of training epochs.
                 - batch (int): Batch size for training.
                 - imgsz (int): Input image size.

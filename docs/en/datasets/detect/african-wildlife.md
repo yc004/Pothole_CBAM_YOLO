@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Explore our African Wildlife Dataset featuring images of buffalo, elephant, rhino, and zebra for training computer vision models. Ideal for research and conservation.
-keywords: African Wildlife Dataset, South African animals, object detection, computer vision, YOLO11, wildlife research, conservation, dataset
+keywords: African Wildlife Dataset, South African animals, object detection, computer vision, YOLO11, wildlife research, conservation, datasets
 ---
 
 # African Wildlife Dataset

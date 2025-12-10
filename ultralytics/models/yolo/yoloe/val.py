@@ -99,8 +99,8 @@ class YOLOEDetectValidator(DetectionValidator):
     def get_vpe_dataloader(self, data: dict[str, Any]) -> torch.utils.data.DataLoader:
         """Create a dataloader for LVIS training visual prompt samples.
 
-        This method prepares a dataloader for visual prompt embeddings (VPE) using the specified dataset. It applies
-        necessary transformations including LoadVisualPrompt and configurations to the dataset for validation purposes.
+        This method prepares a dataloader for visual prompt embeddings (VPE) using the specified datasets. It applies
+        necessary transformations including LoadVisualPrompt and configurations to the datasets for validation purposes.
 
         Args:
             data (dict): Dataset configuration dictionary containing paths and settings.
@@ -141,7 +141,7 @@ class YOLOEDetectValidator(DetectionValidator):
 
         This method validates the model using either text prompts or visual prompts, depending on the load_vp flag. It
         supports validation during training (using a trainer object) or standalone validation with a provided model. For
-        visual prompts, reference data can be specified to extract embeddings from a different dataset.
+        visual prompts, reference data can be specified to extract embeddings from a different datasets.
 
         Args:
             trainer (object, optional): Trainer object containing the model and device.
@@ -184,8 +184,8 @@ class YOLOEDetectValidator(DetectionValidator):
             if load_vp:
                 LOGGER.info("Validate using the visual prompt.")
                 self.args.half = False
-                # TODO: need to check if the names from refer data is consistent with the evaluated dataset
-                # could use same dataset or refer to extract visual prompt embeddings
+                # TODO: need to check if the names from refer data is consistent with the evaluated datasets
+                # could use same datasets or refer to extract visual prompt embeddings
                 dataloader = self.get_vpe_dataloader(data)
                 vpe = self.get_visual_pe(dataloader, model)
                 model.set_classes(names, vpe)

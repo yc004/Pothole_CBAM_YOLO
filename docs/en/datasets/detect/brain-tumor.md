@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the brain tumor detection dataset with MRI/CT images. Essential for training AI models for early diagnosis and treatment planning.
-keywords: brain tumor dataset, MRI scans, CT scans, brain tumor detection, medical imaging, AI in healthcare, computer vision, early diagnosis, treatment planning
+description: Explore the brain tumor detection datasets with MRI/CT images. Essential for training AI models for early diagnosis and treatment planning.
+keywords: brain tumor datasets, MRI scans, CT scans, brain tumor detection, medical imaging, AI in healthcare, computer vision, early diagnosis, treatment planning
 ---
 
 # Brain Tumor Dataset

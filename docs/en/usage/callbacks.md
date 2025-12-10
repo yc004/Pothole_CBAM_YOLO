@@ -77,7 +77,7 @@ if __name__ == "__main__":
     # Add on_model_save callback.
     model.add_callback("on_model_save", print_checkpoint_metrics)
 
-    # Run model training on custom dataset.
+    # Run model training on custom datasets.
     results = model.train(data="coco8.yaml", epochs=3)
 ```
 

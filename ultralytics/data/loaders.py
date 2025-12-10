@@ -478,7 +478,7 @@ class LoadImagesAndVideos:
         self.frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT) / self.vid_stride)
 
     def __len__(self) -> int:
-        """Return the number of files (images and videos) in the dataset."""
+        """Return the number of files (images and videos) in the datasets."""
         return math.ceil(self.nf / self.bs)  # number of batches
 
 

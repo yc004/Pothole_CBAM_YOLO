@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the comprehensive Open Images V7 dataset by Google. Learn about its annotations, applications, and use YOLO11 pretrained models for computer vision tasks.
-keywords: Open Images V7, Google dataset, computer vision, YOLO11 models, object detection, image segmentation, visual relationships, AI research, Ultralytics
+description: Explore the comprehensive Open Images V7 datasets by Google. Learn about its annotations, applications, and use YOLO11 pretrained models for computer vision tasks.
+keywords: Open Images V7, Google datasets, computer vision, YOLO11 models, object detection, image segmentation, visual relationships, AI research, Ultralytics
 ---
 
 # Open Images V7 Dataset

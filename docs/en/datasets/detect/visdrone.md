@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Explore the VisDrone Dataset, a large-scale benchmark for drone-based image and video analysis with over 2.6 million annotations for objects like pedestrians and vehicles.
-keywords: VisDrone, drone dataset, computer vision, object detection, object tracking, crowd counting, machine learning, deep learning
+keywords: VisDrone, drone datasets, computer vision, object detection, object tracking, crowd counting, machine learning, deep learning
 ---
 
 # VisDrone Dataset

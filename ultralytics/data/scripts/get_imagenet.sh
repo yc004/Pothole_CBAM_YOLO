@@ -1,7 +1,7 @@
 #!/bin/bash
 # Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
 
-# Download ILSVRC2012 ImageNet dataset https://image-net.org
+# Download ILSVRC2012 ImageNet datasets https://image-net.org
 # Example usage: bash data/scripts/get_imagenet.sh
 # parent
 # ├── ultralytics

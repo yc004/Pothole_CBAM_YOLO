@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Kickstart your real-time object detection journey with Ultralytics YOLOv5! This guide covers installation, inference, and training to help you master YOLOv5 quickly.
-keywords: YOLOv5, Quickstart, real-time object detection, AI, ML, PyTorch, inference, training, Ultralytics, machine learning, deep learning, PyTorch Hub, COCO dataset
+keywords: YOLOv5, Quickstart, real-time object detection, AI, ML, PyTorch, inference, training, Ultralytics, machine learning, deep learning, PyTorch Hub, COCO datasets
 ---
 
 # YOLOv5 Quickstart 🚀

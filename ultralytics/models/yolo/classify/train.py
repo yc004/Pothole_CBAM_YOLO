@@ -20,16 +20,16 @@ class ClassificationTrainer(BaseTrainer):
     """A trainer class extending BaseTrainer for training image classification models.
 
     This trainer handles the training process for image classification tasks, supporting both YOLO classification models
-    and torchvision models with comprehensive dataset handling and validation.
+    and torchvision models with comprehensive datasets handling and validation.
 
     Attributes:
         model (ClassificationModel): The classification model to be trained.
-        data (dict[str, Any]): Dictionary containing dataset information including class names and number of classes.
+        data (dict[str, Any]): Dictionary containing datasets information including class names and number of classes.
         loss_names (list[str]): Names of the loss functions used during training.
         validator (ClassificationValidator): Validator instance for model evaluation.
 
     Methods:
-        set_model_attributes: Set the model's class names from the loaded dataset.
+        set_model_attributes: Set the model's class names from the loaded datasets.
         get_model: Return a modified PyTorch model configured for training.
         setup_model: Load, create or download model for classification.
         build_dataset: Create a ClassificationDataset instance.
@@ -65,7 +65,7 @@ class ClassificationTrainer(BaseTrainer):
         super().__init__(cfg, overrides, _callbacks)
 
     def set_model_attributes(self):
-        """Set the YOLO model's class names from the loaded dataset."""
+        """Set the YOLO model's class names from the loaded datasets."""
         self.model.names = self.data["names"]
 
     def get_model(self, cfg=None, weights=None, verbose: bool = True):
@@ -114,7 +114,7 @@ class ClassificationTrainer(BaseTrainer):
         """Create a ClassificationDataset instance given an image path and mode.
 
         Args:
-            img_path (str): Path to the dataset images.
+            img_path (str): Path to the datasets images.
             mode (str, optional): Dataset mode ('train', 'val', or 'test').
             batch (Any, optional): Batch information (unused in this implementation).
 
@@ -127,15 +127,15 @@ class ClassificationTrainer(BaseTrainer):
         """Return PyTorch DataLoader with transforms to preprocess images.
 
         Args:
-            dataset_path (str): Path to the dataset.
+            dataset_path (str): Path to the datasets.
             batch_size (int, optional): Number of images per batch.
             rank (int, optional): Process rank for distributed training.
             mode (str, optional): 'train', 'val', or 'test' mode.
 
         Returns:
-            (torch.utils.data.DataLoader): DataLoader for the specified dataset and mode.
+            (torch.utils.data.DataLoader): DataLoader for the specified datasets and mode.
         """
-        with torch_distributed_zero_first(rank):  # init dataset *.cache only once if DDP
+        with torch_distributed_zero_first(rank):  # init datasets *.cache only once if DDP
             dataset = self.build_dataset(dataset_path, mode)
 
         loader = build_dataloader(dataset, batch_size, self.args.workers, rank=rank, drop_last=self.args.compile)

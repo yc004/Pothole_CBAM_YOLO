@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Learn how to gather, label, and deploy data for custom Ultralytics YOLO models using Roboflow's powerful tools. Optimize your computer vision pipeline effortlessly.
-keywords: Roboflow, Ultralytics YOLO, data labeling, computer vision, model training, model deployment, dataset management, automated image annotation, AI tools
+keywords: Roboflow, Ultralytics YOLO, data labeling, computer vision, model training, model deployment, datasets management, automated image annotation, AI tools
 ---
 
 # Roboflow Integration
@@ -181,7 +181,7 @@ rf = roboflow.Roboflow()
 # Define your workspace and project details
 WORKSPACE_ID = "your-workspace-id"  # Replace with your actual Workspace ID
 PROJECT_ID = "your-project-id"  # Replace with your actual Project ID
-VERSION = 1  # Replace with your desired dataset version number
+VERSION = 1  # Replace with your desired datasets version number
 MODEL_PATH = "path/to/your/runs/detect/train/"  # Replace with the path to your YOLO11 training results directory
 
 # Get project and version

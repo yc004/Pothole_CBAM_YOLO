@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the medical-pills detection dataset with labeled images. Essential for training AI models for pharmaceutical identification and automation.
-keywords: medical-pills dataset, pill detection, pharmaceutical imaging, AI in healthcare, computer vision, object detection, medical automation, dataset for training
+description: Explore the medical-pills detection datasets with labeled images. Essential for training AI models for pharmaceutical identification and automation.
+keywords: medical-pills datasets, pill detection, pharmaceutical imaging, AI in healthcare, computer vision, object detection, medical automation, datasets for training
 ---
 
 # Medical Pills Dataset

@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Explore the extensive Crack Segmentation Dataset, ideal for transportation safety, infrastructure maintenance, and self-driving car model development using Ultralytics YOLO.
-keywords: Crack Segmentation Dataset, Ultralytics, transportation safety, public safety, self-driving cars, computer vision, road safety, infrastructure maintenance, dataset, YOLO, segmentation, deep learning
+keywords: Crack Segmentation Dataset, Ultralytics, transportation safety, public safety, self-driving cars, computer vision, road safety, infrastructure maintenance, datasets, YOLO, segmentation, deep learning
 ---
 
 # Crack Segmentation Dataset

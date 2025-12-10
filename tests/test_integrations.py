@@ -124,7 +124,7 @@ def test_triton(tmp_path):
 
 @pytest.mark.skipif(not check_requirements("faster-coco-eval", install=False), reason="faster-coco-eval not installed")
 def test_faster_coco_eval():
-    """Validate YOLO model predictions on COCO dataset using faster-coco-eval."""
+    """Validate YOLO model predictions on COCO datasets using faster-coco-eval."""
     from ultralytics.models.yolo.detect import DetectionValidator
     from ultralytics.models.yolo.pose import PoseValidator
     from ultralytics.models.yolo.segment import SegmentationValidator

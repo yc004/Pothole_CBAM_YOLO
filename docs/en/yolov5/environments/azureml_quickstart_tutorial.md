@@ -84,7 +84,7 @@ With the setup complete, you can now train, validate, perform inference, and exp
 - **Train** the model on a dataset like [COCO128](../../datasets/detect/coco128.md). Check the [Training Mode](../../modes/train.md) documentation for more details.
 
     ```bash
-    # Start training using yolov5s pretrained weights on the COCO128 dataset
+    # Start training using yolov5s pretrained weights on the COCO128 datasets
     python train.py --data coco128.yaml --weights yolov5s.pt --img 640 --epochs 10 --batch 16
     ```
 

@@ -1,6 +1,6 @@
 ---
-description: Explore the functionality and examples of data builders like InfiniteDataLoader and various YOLO dataset builders in Ultralytics.
-keywords: Ultralytics, Data Builders, InfiniteDataLoader, YOLO dataset, build.py, AI, Machine Learning
+description: Explore the functionality and examples of data builders like InfiniteDataLoader and various YOLO datasets builders in Ultralytics.
+keywords: Ultralytics, Data Builders, InfiniteDataLoader, YOLO datasets, build.py, AI, Machine Learning
 ---
 
 # Reference for `ultralytics/data/build.py`

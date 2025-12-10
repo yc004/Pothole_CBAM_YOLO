@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore Ultralytics Tiger-Pose dataset with 263 diverse images. Ideal for testing, training, and refining pose estimation algorithms.
-keywords: Ultralytics, Tiger-Pose, dataset, pose estimation, YOLO11, training data, machine learning, neural networks
+description: Explore Ultralytics Tiger-Pose datasets with 263 diverse images. Ideal for testing, training, and refining pose estimation algorithms.
+keywords: Ultralytics, Tiger-Pose, datasets, pose estimation, YOLO11, training data, machine learning, neural networks
 ---
 
 # Tiger-Pose Dataset

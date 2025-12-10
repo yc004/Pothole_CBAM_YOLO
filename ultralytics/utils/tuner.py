@@ -31,7 +31,7 @@ def run_ray_tune(
         >>> from ultralytics import YOLO
         >>> model = YOLO("yolo11n.pt")  # Load a YOLO11n model
 
-        Start tuning hyperparameters for YOLO11n training on the COCO8 dataset
+        Start tuning hyperparameters for YOLO11n training on the COCO8 datasets
         >>> result_grid = model.tune(data="coco8.yaml", use_ray=True)
     """
     LOGGER.info("💡 Learn about RayTune at https://docs.ultralytics.com/integrations/ray-tune")
@@ -101,7 +101,7 @@ def run_ray_tune(
         space = default_space
         LOGGER.warning("Search space not provided, using default search space.")
 
-    # Get dataset
+    # Get datasets
     data = train_args.get("data", TASK2DATA[task])
     space["data"] = data
     if "data" not in train_args:

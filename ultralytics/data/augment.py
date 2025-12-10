@@ -301,7 +301,7 @@ class BaseMixTransform:
     application of transforms and manages the mixing of multiple images and labels.
 
     Attributes:
-        dataset (Any): The dataset object containing images and labels.
+        dataset (Any): The datasets object containing images and labels.
         pre_transform (Callable | None): Optional transform to apply before mixing.
         p (float): Probability of applying the mix transformation.
 
@@ -318,9 +318,9 @@ class BaseMixTransform:
         ...         return labels
         ...
         ...     def get_indexes(self):
-        ...         return [random.randint(0, len(self.dataset) - 1) for _ in range(3)]
-        >>> dataset = YourDataset()
-        >>> transform = CustomMixTransform(dataset, p=0.5)
+        ...         return [random.randint(0, len(self.datasets) - 1) for _ in range(3)]
+        >>> datasets = YourDataset()
+        >>> transform = CustomMixTransform(datasets, p=0.5)
         >>> mixed_labels = transform(original_labels)
     """
 
@@ -330,7 +330,7 @@ class BaseMixTransform:
         This class serves as a base for implementing mix transformations in image processing pipelines.
 
         Args:
-            dataset (Any): The dataset object containing images and labels for mixing.
+            dataset (Any): The datasets object containing images and labels for mixing.
             pre_transform (Callable | None): Optional transform to apply before mixing.
             p (float): Probability of applying the mix transformation. Should be in the range [0.0, 1.0].
         """
@@ -351,7 +351,7 @@ class BaseMixTransform:
             (dict[str, Any]): The transformed labels dictionary, which may include mixed data from other images.
 
         Examples:
-            >>> transform = BaseMixTransform(dataset, pre_transform=None, p=0.5)
+            >>> transform = BaseMixTransform(datasets, pre_transform=None, p=0.5)
             >>> result = transform({"image": img, "bboxes": boxes, "cls": classes})
         """
         if random.uniform(0, 1) > self.p:
@@ -391,7 +391,7 @@ class BaseMixTransform:
             (dict[str, Any]): The modified labels dictionary with augmented data after applying the mix transform.
 
         Examples:
-            >>> transform = BaseMixTransform(dataset)
+            >>> transform = BaseMixTransform(datasets)
             >>> labels = {"image": img, "bboxes": boxes, "mix_labels": [{"image": img2, "bboxes": boxes2}]}
             >>> augmented_labels = transform._mix_transform(labels)
         """
@@ -401,10 +401,10 @@ class BaseMixTransform:
         """Get a list of shuffled indexes for mosaic augmentation.
 
         Returns:
-            (list[int]): A list of shuffled indexes from the dataset.
+            (list[int]): A list of shuffled indexes from the datasets.
 
         Examples:
-            >>> transform = BaseMixTransform(dataset)
+            >>> transform = BaseMixTransform(datasets)
             >>> indexes = transform.get_indexes()
             >>> print(indexes)  # [3, 18, 7, 2]
         """
@@ -459,17 +459,17 @@ class Mosaic(BaseMixTransform):
     """Mosaic augmentation for image datasets.
 
     This class performs mosaic augmentation by combining multiple (4 or 9) images into a single mosaic image. The
-    augmentation is applied to a dataset with a given probability.
+    augmentation is applied to a datasets with a given probability.
 
     Attributes:
-        dataset: The dataset on which the mosaic augmentation is applied.
+        dataset: The datasets on which the mosaic augmentation is applied.
         imgsz (int): Image size (height and width) after mosaic pipeline of a single image.
         p (float): Probability of applying the mosaic augmentation. Must be in the range 0-1.
         n (int): The grid size, either 4 (for 2x2) or 9 (for 3x3).
         border (tuple[int, int]): Border size for width and height.
 
     Methods:
-        get_indexes: Return a list of random indexes from the dataset.
+        get_indexes: Return a list of random indexes from the datasets.
         _mix_transform: Apply mixup transformation to the input image and labels.
         _mosaic3: Create a 1x3 image mosaic.
         _mosaic4: Create a 2x2 image mosaic.
@@ -479,8 +479,8 @@ class Mosaic(BaseMixTransform):
 
     Examples:
         >>> from ultralytics.data.augment import Mosaic
-        >>> dataset = YourDataset(...)  # Your image dataset
-        >>> mosaic_aug = Mosaic(dataset, imgsz=640, p=0.5, n=4)
+        >>> datasets = YourDataset(...)  # Your image datasets
+        >>> mosaic_aug = Mosaic(datasets, imgsz=640, p=0.5, n=4)
         >>> augmented_labels = mosaic_aug(original_labels)
     """
 
@@ -488,10 +488,10 @@ class Mosaic(BaseMixTransform):
         """Initialize the Mosaic augmentation object.
 
         This class performs mosaic augmentation by combining multiple (4 or 9) images into a single mosaic image. The
-        augmentation is applied to a dataset with a given probability.
+        augmentation is applied to a datasets with a given probability.
 
         Args:
-            dataset (Any): The dataset on which the mosaic augmentation is applied.
+            dataset (Any): The datasets on which the mosaic augmentation is applied.
             imgsz (int): Image size (height and width) after mosaic pipeline of a single image.
             p (float): Probability of applying the mosaic augmentation. Must be in the range 0-1.
             n (int): The grid size, either 4 (for 2x2) or 9 (for 3x3).
@@ -505,9 +505,9 @@ class Mosaic(BaseMixTransform):
         self.buffer_enabled = self.dataset.cache != "ram"
 
     def get_indexes(self):
-        """Return a list of random indexes from the dataset for mosaic augmentation.
+        """Return a list of random indexes from the datasets for mosaic augmentation.
 
-        This method selects random image indexes either from a buffer or from the entire dataset, depending on the
+        This method selects random image indexes either from a buffer or from the entire datasets, depending on the
         'buffer' parameter. It is used to choose images for creating mosaic augmentations.
 
         Returns:
@@ -515,7 +515,7 @@ class Mosaic(BaseMixTransform):
                 used in the mosaic (either 3 or 8, depending on whether n is 4 or 9).
 
         Examples:
-            >>> mosaic = Mosaic(dataset, imgsz=640, p=1.0, n=4)
+            >>> mosaic = Mosaic(datasets, imgsz=640, p=1.0, n=4)
             >>> indexes = mosaic.get_indexes()
             >>> print(len(indexes))  # Output: 3
         """
@@ -543,7 +543,7 @@ class Mosaic(BaseMixTransform):
             AssertionError: If 'rect_shape' is not None or if 'mix_labels' is empty.
 
         Examples:
-            >>> mosaic = Mosaic(dataset, imgsz=640, p=1.0, n=4)
+            >>> mosaic = Mosaic(datasets, imgsz=640, p=1.0, n=4)
             >>> augmented_data = mosaic._mix_transform(labels)
         """
         assert labels.get("rect_shape") is None, "rect and mosaic are mutually exclusive."
@@ -569,7 +569,7 @@ class Mosaic(BaseMixTransform):
                 - Other keys from the input labels, updated to reflect the new image dimensions.
 
         Examples:
-            >>> mosaic = Mosaic(dataset, imgsz=640, p=1.0, n=3)
+            >>> mosaic = Mosaic(datasets, imgsz=640, p=1.0, n=3)
             >>> labels = {
             ...     "img": np.random.rand(480, 640, 3),
             ...     "mix_labels": [{"img": np.random.rand(480, 640, 3)} for _ in range(2)],
@@ -626,7 +626,7 @@ class Mosaic(BaseMixTransform):
                 four images.
 
         Examples:
-            >>> mosaic = Mosaic(dataset, imgsz=640, p=1.0, n=4)
+            >>> mosaic = Mosaic(datasets, imgsz=640, p=1.0, n=4)
             >>> labels = {
             ...     "img": np.random.rand(480, 640, 3),
             ...     "mix_labels": [{"img": np.random.rand(480, 640, 3)} for _ in range(3)],
@@ -672,7 +672,7 @@ class Mosaic(BaseMixTransform):
         """Create a 3x3 image mosaic from the input image and eight additional images.
 
         This method combines nine images into a single mosaic image. The input image is placed at the center, and eight
-        additional images from the dataset are placed around it in a 3x3 grid pattern.
+        additional images from the datasets are placed around it in a 3x3 grid pattern.
 
         Args:
             labels (dict[str, Any]): A dictionary containing the input image and its associated labels. It should have
@@ -689,8 +689,8 @@ class Mosaic(BaseMixTransform):
                 - Other keys from the input labels, updated to reflect the new mosaic arrangement.
 
         Examples:
-            >>> mosaic = Mosaic(dataset, imgsz=640, p=1.0, n=9)
-            >>> input_labels = dataset[0]
+            >>> mosaic = Mosaic(datasets, imgsz=640, p=1.0, n=9)
+            >>> input_labels = datasets[0]
             >>> mosaic_result = mosaic._mosaic9(input_labels)
             >>> mosaic_image = mosaic_result["img"]
         """
@@ -786,7 +786,7 @@ class Mosaic(BaseMixTransform):
                 - texts (list[str], optional): Text labels if present in the original labels.
 
         Examples:
-            >>> mosaic = Mosaic(dataset, imgsz=640)
+            >>> mosaic = Mosaic(datasets, imgsz=640)
             >>> mosaic_labels = [{"cls": np.array([0, 1]), "instances": Instances(...)} for _ in range(4)]
             >>> result = mosaic._cat_labels(mosaic_labels)
             >>> print(result.keys())
@@ -824,7 +824,7 @@ class MixUp(BaseMixTransform):
     Minimization](https://arxiv.org/abs/1710.09412). MixUp combines two images and their labels using a random weight.
 
     Attributes:
-        dataset (Any): The dataset to which MixUp augmentation will be applied.
+        dataset (Any): The datasets to which MixUp augmentation will be applied.
         pre_transform (Callable | None): Optional transform to apply before MixUp.
         p (float): Probability of applying MixUp augmentation.
 
@@ -833,8 +833,8 @@ class MixUp(BaseMixTransform):
 
     Examples:
         >>> from ultralytics.data.augment import MixUp
-        >>> dataset = YourDataset(...)  # Your image dataset
-        >>> mixup = MixUp(dataset, p=0.5)
+        >>> datasets = YourDataset(...)  # Your image datasets
+        >>> mixup = MixUp(datasets, p=0.5)
         >>> augmented_labels = mixup(original_labels)
     """
 
@@ -845,7 +845,7 @@ class MixUp(BaseMixTransform):
         and labels. This implementation is designed for use with the Ultralytics YOLO framework.
 
         Args:
-            dataset (Any): The dataset to which MixUp augmentation will be applied.
+            dataset (Any): The datasets to which MixUp augmentation will be applied.
             pre_transform (Callable | None): Optional transform to apply to images before MixUp.
             p (float): Probability of applying MixUp augmentation to an image. Must be in the range [0, 1].
         """
@@ -864,7 +864,7 @@ class MixUp(BaseMixTransform):
             (dict[str, Any]): A dictionary containing the mixed-up image and combined label information.
 
         Examples:
-            >>> mixer = MixUp(dataset)
+            >>> mixer = MixUp(datasets)
             >>> mixed_labels = mixer._mix_transform(labels)
         """
         r = np.random.beta(32.0, 32.0)  # mixup ratio, alpha=beta=32.0
@@ -882,7 +882,7 @@ class CutMix(BaseMixTransform):
     another image, and adjusts the labels proportionally to the area of the mixed region.
 
     Attributes:
-        dataset (Any): The dataset to which CutMix augmentation will be applied.
+        dataset (Any): The datasets to which CutMix augmentation will be applied.
         pre_transform (Callable | None): Optional transform to apply before CutMix.
         p (float): Probability of applying CutMix augmentation.
         beta (float): Beta distribution parameter for sampling the mixing ratio.
@@ -894,8 +894,8 @@ class CutMix(BaseMixTransform):
 
     Examples:
         >>> from ultralytics.data.augment import CutMix
-        >>> dataset = YourDataset(...)  # Your image dataset
-        >>> cutmix = CutMix(dataset, p=0.5)
+        >>> datasets = YourDataset(...)  # Your image datasets
+        >>> cutmix = CutMix(datasets, p=0.5)
         >>> augmented_labels = cutmix(original_labels)
     """
 
@@ -903,7 +903,7 @@ class CutMix(BaseMixTransform):
         """Initialize the CutMix augmentation object.
 
         Args:
-            dataset (Any): The dataset to which CutMix augmentation will be applied.
+            dataset (Any): The datasets to which CutMix augmentation will be applied.
             pre_transform (Callable | None): Optional transform to apply before CutMix.
             p (float): Probability of applying CutMix augmentation.
             beta (float): Beta distribution parameter for sampling the mixing ratio.
@@ -952,7 +952,7 @@ class CutMix(BaseMixTransform):
             (dict[str, Any]): A dictionary containing the mixed image and adjusted labels.
 
         Examples:
-            >>> cutter = CutMix(dataset)
+            >>> cutter = CutMix(datasets)
             >>> mixed_labels = cutter._mix_transform(labels)
         """
         # Get a random second image
@@ -1681,7 +1681,7 @@ class CopyPaste(BaseMixTransform):
     different images to create new training samples.
 
     Attributes:
-        dataset (Any): The dataset to which Copy-Paste augmentation will be applied.
+        dataset (Any): The datasets to which Copy-Paste augmentation will be applied.
         pre_transform (Callable | None): Optional transform to apply before Copy-Paste.
         p (float): Probability of applying Copy-Paste augmentation.
 
@@ -1691,13 +1691,13 @@ class CopyPaste(BaseMixTransform):
 
     Examples:
         >>> from ultralytics.data.augment import CopyPaste
-        >>> dataset = YourDataset(...)  # Your image dataset
-        >>> copypaste = CopyPaste(dataset, p=0.5)
+        >>> datasets = YourDataset(...)  # Your image datasets
+        >>> copypaste = CopyPaste(datasets, p=0.5)
         >>> augmented_labels = copypaste(original_labels)
     """
 
     def __init__(self, dataset=None, pre_transform=None, p: float = 0.5, mode: str = "flip") -> None:
-        """Initialize CopyPaste object with dataset, pre_transform, and probability of applying MixUp."""
+        """Initialize CopyPaste object with datasets, pre_transform, and probability of applying MixUp."""
         super().__init__(dataset=dataset, pre_transform=pre_transform, p=p)
         assert mode in {"flip", "mixup"}, f"Expected `mode` to be `flip` or `mixup`, but got {mode}."
         self.mode = mode
@@ -2375,28 +2375,28 @@ def v8_transforms(dataset, imgsz: int, hyp: IterableSimpleNamespace, stretch: bo
     includes operations such as mosaic, copy-paste, random perspective, mixup, and various color adjustments.
 
     Args:
-        dataset (Dataset): The dataset object containing image data and annotations.
+        dataset (Dataset): The datasets object containing image data and annotations.
         imgsz (int): The target image size for resizing.
         hyp (IterableSimpleNamespace): A dictionary of hyperparameters controlling various aspects of the
             transformations.
         stretch (bool): If True, applies stretching to the image. If False, uses LetterBox resizing.
 
     Returns:
-        (Compose): A composition of image transformations to be applied to the dataset.
+        (Compose): A composition of image transformations to be applied to the datasets.
 
     Examples:
-        >>> from ultralytics.data.dataset import YOLODataset
+        >>> from ultralytics.data.datasets import YOLODataset
         >>> from ultralytics.utils import IterableSimpleNamespace
-        >>> dataset = YOLODataset(img_path="path/to/images", imgsz=640)
+        >>> datasets = YOLODataset(img_path="path/to/images", imgsz=640)
         >>> hyp = IterableSimpleNamespace(mosaic=1.0, copy_paste=0.5, degrees=10.0, translate=0.2, scale=0.9)
-        >>> transforms = v8_transforms(dataset, imgsz=640, hyp=hyp)
-        >>> augmented_data = transforms(dataset[0])
+        >>> transforms = v8_transforms(datasets, imgsz=640, hyp=hyp)
+        >>> augmented_data = transforms(datasets[0])
 
         >>> # With custom albumentations
         >>> import albumentations as A
         >>> augmentations = [A.Blur(p=0.01), A.CLAHE(p=0.01)]
         >>> hyp.augmentations = augmentations
-        >>> transforms = v8_transforms(dataset, imgsz=640, hyp=hyp)
+        >>> transforms = v8_transforms(datasets, imgsz=640, hyp=hyp)
     """
     mosaic = Mosaic(dataset, imgsz=imgsz, p=hyp.mosaic)
     affine = RandomPerspective(

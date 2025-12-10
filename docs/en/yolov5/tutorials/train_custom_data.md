@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Learn how to train YOLOv5 on your own custom datasets with easy-to-follow steps. Detailed guide on dataset preparation, model selection, and training process.
-keywords: YOLOv5, custom dataset, model training, object detection, machine learning, AI, YOLO model, PyTorch, dataset preparation, Ultralytics
+description: Learn how to train YOLOv5 on your own custom datasets with easy-to-follow steps. Detailed guide on datasets preparation, model selection, and training process.
+keywords: YOLOv5, custom datasets, model training, object detection, machine learning, AI, YOLO model, PyTorch, datasets preparation, Ultralytics
 ---
 
 # Train YOLOv5 on Custom Data
@@ -158,7 +158,7 @@ Begin the [model training](https://docs.ultralytics.com/modes/train/) using the 
 Pretrained weights are automatically downloaded from the [latest YOLOv5 release](https://github.com/ultralytics/yolov5/releases) if not found locally.
 
 ```bash
-# Example: Train YOLOv5s on the COCO128 dataset for 3 epochs
+# Example: Train YOLOv5s on the COCO128 datasets for 3 epochs
 python train.py --img 640 --batch 16 --epochs 3 --data coco128.yaml --weights yolov5s.pt
 ```
 
@@ -274,7 +274,7 @@ Training YOLOv5 on a custom dataset involves several key steps:
 3.  **Create Dataset Configuration**: Define dataset paths, number of classes, and class names in a `dataset.yaml` file.
 4.  **Start Training**: Execute the `train.py` script, providing paths to your `dataset.yaml`, desired pretrained weights (e.g., `yolov5s.pt`), image size, batch size, and the number of epochs.
     ```bash
-    python train.py --img 640 --batch 16 --epochs 100 --data path/to/your/dataset.yaml --weights yolov5s.pt
+    python train.py --img 640 --batch 16 --epochs 100 --data path/to/your/datasets.yaml --weights yolov5s.pt
     ```
 
 ### Why should I use Ultralytics HUB for training my YOLO models?

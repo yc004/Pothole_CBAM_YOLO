@@ -1,5 +1,5 @@
 ---
-description: Explore the DetectionValidator class for YOLO models in Ultralytics. Learn validation techniques, metrics, and dataset handling for object detection.
+description: Explore the DetectionValidator class for YOLO models in Ultralytics. Learn validation techniques, metrics, and datasets handling for object detection.
 keywords: YOLO validation, detection validation, YOLO metrics, Ultralytics, object detection, machine learning, AI
 ---
 

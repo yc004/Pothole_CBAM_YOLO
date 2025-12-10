@@ -25,9 +25,9 @@ class DetectionValidator(BaseValidator):
     prediction processing, and visualization of results.
 
     Attributes:
-        is_coco (bool): Whether the dataset is COCO.
-        is_lvis (bool): Whether the dataset is LVIS.
-        class_map (list[int]): Mapping from model class indices to dataset class indices.
+        is_coco (bool): Whether the datasets is COCO.
+        is_lvis (bool): Whether the datasets is LVIS.
+        class_map (list[int]): Mapping from model class indices to datasets class indices.
         metrics (DetMetrics): Object detection metrics calculator.
         iouv (torch.Tensor): IoU thresholds for mAP calculation.
         niou (int): Number of IoU thresholds.
@@ -234,7 +234,7 @@ class DetectionValidator(BaseValidator):
             for jdict in gathered_jdict:
                 self.jdict.extend(jdict)
             self.metrics.stats = merged_stats
-            self.seen = len(self.dataloader.dataset)  # total image count from dataset
+            self.seen = len(self.dataloader.dataset)  # total image count from datasets
         elif RANK > 0:
             dist.gather_object(self.metrics.stats, None, dst=0)
             dist.gather_object(self.jdict, None, dst=0)
@@ -296,7 +296,7 @@ class DetectionValidator(BaseValidator):
             batch (int, optional): Size of batches, this is for `rect`.
 
         Returns:
-            (Dataset): YOLO dataset.
+            (Dataset): YOLO datasets.
         """
         return build_yolo_dataset(self.args, img_path, batch, self.data, mode=mode, stride=self.stride)
 
@@ -304,7 +304,7 @@ class DetectionValidator(BaseValidator):
         """Construct and return dataloader.
 
         Args:
-            dataset_path (str): Path to the dataset.
+            dataset_path (str): Path to the datasets.
             batch_size (int): Size of each batch.
 
         Returns:

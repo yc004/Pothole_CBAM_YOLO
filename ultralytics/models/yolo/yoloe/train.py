@@ -22,7 +22,7 @@ class YOLOETrainer(DetectionTrainer):
     """A trainer class for YOLOE object detection models.
 
     This class extends DetectionTrainer to provide specialized training functionality for YOLOE models, including custom
-    model initialization, validation, and dataset building with multi-modal support.
+    model initialization, validation, and datasets building with multi-modal support.
 
     Attributes:
         loss_names (tuple): Names of loss components used during training.
@@ -30,7 +30,7 @@ class YOLOETrainer(DetectionTrainer):
     Methods:
         get_model: Initialize and return a YOLOEModel with specified configuration.
         get_validator: Return a YOLOEDetectValidator for model validation.
-        build_dataset: Build YOLO dataset with multi-modal support for training.
+        build_dataset: Build YOLO datasets with multi-modal support for training.
     """
 
     def __init__(self, cfg=DEFAULT_CFG, overrides: dict | None = None, _callbacks=None):
@@ -93,7 +93,7 @@ class YOLOETrainer(DetectionTrainer):
             batch (int, optional): Size of batches, this is for rectangular training.
 
         Returns:
-            (Dataset): YOLO dataset configured for training or validation.
+            (Dataset): YOLO datasets configured for training or validation.
         """
         gs = max(int(unwrap_model(self.model).stride.max() if self.model else 0), 32)
         return build_yolo_dataset(
@@ -176,7 +176,7 @@ class YOLOETrainerFromScratch(YOLOETrainer, WorldTrainerFromScratch):
             batch (int, optional): Size of batches, used for rectangular training/validation.
 
         Returns:
-            (YOLOConcatDataset | Dataset): The constructed dataset for training or validation.
+            (YOLOConcatDataset | Dataset): The constructed datasets for training or validation.
         """
         return WorldTrainerFromScratch.build_dataset(self, img_path, mode, batch)
 
@@ -234,7 +234,7 @@ class YOLOEPEFreeTrainer(YOLOEPETrainer, YOLOETrainerFromScratch):
 
         This method collects unique category names from all datasets, generates text embeddings for them, and caches
         these embeddings to improve training efficiency. The embeddings are stored in a file in the parent directory of
-        the first dataset's image path.
+        the first datasets's image path.
 
         Args:
             datasets (list[Dataset]): List of datasets containing category names to process.
@@ -255,7 +255,7 @@ class YOLOEVPTrainer(YOLOETrainerFromScratch):
     alongside images to guide the detection process.
 
     Methods:
-        build_dataset: Build dataset with visual prompt loading transforms.
+        build_dataset: Build datasets with visual prompt loading transforms.
     """
 
     def build_dataset(self, img_path: list[str] | str, mode: str = "train", batch: int | None = None):
@@ -267,7 +267,7 @@ class YOLOEVPTrainer(YOLOETrainerFromScratch):
             batch (int, optional): Size of batches, used for rectangular training/validation.
 
         Returns:
-            (Dataset): YOLO dataset configured for training or validation, with visual prompts for training mode.
+            (Dataset): YOLO datasets configured for training or validation, with visual prompts for training mode.
         """
         dataset = super().build_dataset(img_path, mode, batch)
         if isinstance(dataset, YOLOConcatDataset):
@@ -278,7 +278,7 @@ class YOLOEVPTrainer(YOLOETrainerFromScratch):
         return dataset
 
     def _close_dataloader_mosaic(self):
-        """Close mosaic augmentation and add visual prompt loading to the training dataset."""
+        """Close mosaic augmentation and add visual prompt loading to the training datasets."""
         super()._close_dataloader_mosaic()
         if isinstance(self.train_loader.dataset, YOLOConcatDataset):
             for d in self.train_loader.dataset.datasets:

@@ -85,7 +85,7 @@ def onnx2engine(
 
     Notes:
         TensorRT version compatibility is handled for workspace size and engine building.
-        INT8 calibration requires a dataset and generates a calibration cache.
+        INT8 calibration requires a datasets and generates a calibration cache.
         Metadata is serialized and written to the engine file if provided.
     """
     import tensorrt as trt
@@ -155,11 +155,11 @@ def onnx2engine(
             """Custom INT8 calibrator for TensorRT engine optimization.
 
             This calibrator provides the necessary interface for TensorRT to perform INT8 quantization calibration using
-            a dataset. It handles batch generation, caching, and calibration algorithm selection.
+            a datasets. It handles batch generation, caching, and calibration algorithm selection.
 
             Attributes:
                 dataset: Dataset for calibration.
-                data_iter: Iterator over the calibration dataset.
+                data_iter: Iterator over the calibration datasets.
                 algo (trt.CalibrationAlgoType): Calibration algorithm type.
                 batch (int): Batch size for calibration.
                 cache (Path): Path to save the calibration cache.
@@ -177,7 +177,7 @@ def onnx2engine(
                 dataset,  # ultralytics.data.build.InfiniteDataLoader
                 cache: str = "",
             ) -> None:
-                """Initialize the INT8 calibrator with dataset and cache path."""
+                """Initialize the INT8 calibrator with datasets and cache path."""
                 trt.IInt8Calibrator.__init__(self)
                 self.dataset = dataset
                 self.data_iter = iter(dataset)
@@ -216,7 +216,7 @@ def onnx2engine(
                 """Write calibration cache to disk."""
                 _ = self.cache.write_bytes(cache)
 
-        # Load dataset w/ builder (for batching) and calibrate
+        # Load datasets w/ builder (for batching) and calibrate
         config.int8_calibrator = EngineCalibrator(
             dataset=dataset,
             cache=str(Path(onnx_file).with_suffix(".cache")),

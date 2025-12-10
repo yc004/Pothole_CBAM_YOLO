@@ -47,7 +47,7 @@ class RTDETR:
         model_input (list): Model input metadata.
         input_width (int): Width dimension required by the model.
         input_height (int): Height dimension required by the model.
-        classes (list[str]): List of class names from COCO dataset.
+        classes (list[str]): List of class names from COCO datasets.
         color_palette (np.ndarray): Random color palette for visualization.
         img (np.ndarray): Loaded input image.
         img_height (int): Height of the input image.
@@ -83,7 +83,7 @@ class RTDETR:
             conf_thres (float, optional): Confidence threshold for filtering detections.
             iou_thres (float, optional): IoU threshold for non-maximum suppression.
             class_names (Optional[str], optional): Path to a YAML file containing class names. If None, uses COCO
-                dataset classes.
+                datasets classes.
         """
         self.model_path = model_path
         self.img_path = img_path
@@ -99,7 +99,7 @@ class RTDETR:
         self.input_height = self.model_input[0].shape[3]
 
         if self.classes is None:
-            # Load class names from the COCO dataset YAML file
+            # Load class names from the COCO datasets YAML file
             self.classes = download_file(
                 "https://raw.githubusercontent.com/ultralytics/"
                 "ultralytics/refs/heads/main/ultralytics/cfg/datasets/coco8.yaml",

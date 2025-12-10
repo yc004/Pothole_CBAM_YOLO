@@ -102,7 +102,7 @@ def benchmark(
     if isinstance(model, (str, Path)):
         model = YOLO(model)
     is_end2end = getattr(model.model.model[-1], "end2end", False)
-    data = data or TASK2DATA[model.task]  # task to dataset, i.e. coco8.yaml for task=detect
+    data = data or TASK2DATA[model.task]  # task to datasets, i.e. coco8.yaml for task=detect
     key = TASK2METRIC[model.task]  # task to metric, i.e. metrics/mAP50-95(B) for task=detect
 
     y = []
@@ -228,17 +228,17 @@ def benchmark(
 class RF100Benchmark:
     """Benchmark YOLO model performance across various formats for speed and accuracy.
 
-    This class provides functionality to benchmark YOLO models on the RF100 dataset collection.
+    This class provides functionality to benchmark YOLO models on the RF100 datasets collection.
 
     Attributes:
         ds_names (list[str]): Names of datasets used for benchmarking.
-        ds_cfg_list (list[Path]): List of paths to dataset configuration files.
+        ds_cfg_list (list[Path]): List of paths to datasets configuration files.
         rf (Roboflow): Roboflow instance for accessing datasets.
         val_metrics (list[str]): Metrics used for validation.
 
     Methods:
         set_key: Set Roboflow API key for accessing datasets.
-        parse_dataset: Parse dataset links and download datasets.
+        parse_dataset: Parse datasets links and download datasets.
         fix_yaml: Fix train and validation paths in YAML files.
         evaluate: Evaluate model performance on validation results.
     """
@@ -267,14 +267,14 @@ class RF100Benchmark:
         self.rf = Roboflow(api_key=api_key)
 
     def parse_dataset(self, ds_link_txt: str = "datasets_links.txt"):
-        """Parse dataset links and download datasets.
+        """Parse datasets links and download datasets.
 
         Args:
-            ds_link_txt (str): Path to the file containing dataset links.
+            ds_link_txt (str): Path to the file containing datasets links.
 
         Returns:
-            ds_names (list[str]): List of dataset names.
-            ds_cfg_list (list[Path]): List of paths to dataset configuration files.
+            ds_names (list[str]): List of datasets names.
+            ds_cfg_list (list[Path]): List of paths to datasets configuration files.
 
         Examples:
             >>> benchmark = RF100Benchmark()
@@ -317,13 +317,13 @@ class RF100Benchmark:
             yaml_path (str): Path to the YAML configuration file.
             val_log_file (str): Path to the validation log file.
             eval_log_file (str): Path to the evaluation log file.
-            list_ind (int): Index of the current dataset in the list.
+            list_ind (int): Index of the current datasets in the list.
 
         Returns:
             (float): The mean average precision (mAP) value for the evaluated model.
 
         Examples:
-            Evaluate a model on a specific dataset
+            Evaluate a model on a specific datasets
             >>> benchmark = RF100Benchmark()
             >>> benchmark.evaluate("path/to/data.yaml", "path/to/val_log.txt", "path/to/eval_log.txt", 0)
         """

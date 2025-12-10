@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the COCO dataset for object detection and segmentation. Learn about its structure, usage, pretrained models, and key features.
-keywords: COCO dataset, object detection, segmentation, benchmarking, computer vision, pose estimation, YOLO models, COCO annotations
+description: Explore the COCO datasets for object detection and segmentation. Learn about its structure, usage, pretrained models, and key features.
+keywords: COCO datasets, object detection, segmentation, benchmarking, computer vision, pose estimation, YOLO models, COCO annotations
 ---
 
 # COCO Dataset

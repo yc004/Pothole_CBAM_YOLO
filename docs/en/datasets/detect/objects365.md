@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Explore the Objects365 Dataset with 2M images and 30M bounding boxes across 365 categories. Enhance your object detection models with diverse, high-quality data.
-keywords: Objects365 dataset, object detection, machine learning, deep learning, computer vision, annotated images, bounding boxes, YOLO11, high-resolution images, dataset configuration
+keywords: Objects365 datasets, object detection, machine learning, deep learning, computer vision, annotated images, bounding boxes, YOLO11, high-resolution images, datasets configuration
 ---
 
 # Objects365 Dataset

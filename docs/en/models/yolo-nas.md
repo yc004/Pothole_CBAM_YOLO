@@ -141,7 +141,7 @@ from ultralytics import NAS
 # Load a COCO-pretrained YOLO-NAS-s model
 model = NAS("yolo_nas_s.pt")
 
-# Validate the model on the COCO8 example dataset
+# Validate the model on the COCO8 example datasets
 results = model.val(data="coco8.yaml")
 
 # Run inference with the YOLO-NAS-s model on the 'bus.jpg' image

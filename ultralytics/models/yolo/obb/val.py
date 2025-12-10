@@ -23,7 +23,7 @@ class OBBValidator(DetectionValidator):
     Attributes:
         args (dict): Configuration arguments for the validator.
         metrics (OBBMetrics): Metrics object for evaluating OBB model performance.
-        is_dota (bool): Flag indicating whether the validation dataset is in DOTA format.
+        is_dota (bool): Flag indicating whether the validation datasets is in DOTA format.
 
     Methods:
         init_metrics: Initialize evaluation metrics for YOLO.
@@ -66,7 +66,7 @@ class OBBValidator(DetectionValidator):
         """
         super().init_metrics(model)
         val = self.data.get(self.args.split, "")  # validation path
-        self.is_dota = isinstance(val, str) and "DOTA" in val  # check if dataset is DOTA format
+        self.is_dota = isinstance(val, str) and "DOTA" in val  # check if datasets is DOTA format
         self.confusion_matrix.task = "obb"  # set confusion matrix task to 'obb'
 
     def _process_batch(self, preds: dict[str, torch.Tensor], batch: dict[str, torch.Tensor]) -> dict[str, np.ndarray]:

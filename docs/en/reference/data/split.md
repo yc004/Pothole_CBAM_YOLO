@@ -1,6 +1,6 @@
 ---
 description: Learn how to split datasets into train, validation, and test subsets using Ultralytics utilities for efficient data preparation.
-keywords: dataset splitting, autosplit dataset, training dataset preparation, validation set creation, Ultralytics data tools
+keywords: datasets splitting, autosplit datasets, training datasets preparation, validation set creation, Ultralytics data tools
 ---
 
 # Reference for `ultralytics/data/split.py`

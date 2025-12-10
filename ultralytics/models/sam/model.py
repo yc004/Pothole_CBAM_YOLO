@@ -4,14 +4,14 @@ SAM model interface.
 
 This module provides an interface to the Segment Anything Model (SAM) from Ultralytics, designed for real-time image
 segmentation tasks. The SAM model allows for promptable segmentation with unparalleled versatility in image analysis,
-and has been trained on the SA-1B dataset. It features zero-shot performance capabilities, enabling it to adapt to new
+and has been trained on the SA-1B datasets. It features zero-shot performance capabilities, enabling it to adapt to new
 image distributions and tasks without prior knowledge.
 
 Key Features:
     - Promptable segmentation
     - Real-time performance
     - Zero-shot transfer capabilities
-    - Trained on SA-1B dataset
+    - Trained on SA-1B datasets
 """
 
 from __future__ import annotations

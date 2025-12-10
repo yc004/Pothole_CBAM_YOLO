@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Explore seamless integrations between Ultralytics HUB and platforms like Roboflow. Learn how to import datasets, train models, and enhance your AI workflow.
-keywords: Ultralytics HUB, Roboflow integration, dataset import, model training, AI, machine learning, model export, ONNX, OpenVINO
+keywords: Ultralytics HUB, Roboflow integration, datasets import, model training, AI, machine learning, model export, ONNX, OpenVINO
 ---
 
 # Ultralytics HUB Integrations

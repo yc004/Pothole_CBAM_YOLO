@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Discover ImageNet10 a compact version of ImageNet for rapid model testing and CI checks. Perfect for quick evaluations in computer vision tasks.
-keywords: ImageNet10, ImageNet, Ultralytics, CI tests, sanity checks, training pipelines, computer vision, deep learning, dataset
+keywords: ImageNet10, ImageNet, Ultralytics, CI tests, sanity checks, training pipelines, computer vision, deep learning, datasets
 ---
 
 # ImageNet10 Dataset

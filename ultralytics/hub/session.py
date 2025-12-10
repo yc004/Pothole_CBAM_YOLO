@@ -154,7 +154,7 @@ class HUBTrainingSession:
                 "device": str(model_args.get("device", "")),  # convert None to string
                 "cache": str(model_args.get("cache", "ram")),  # convert True, False, None to string
             },
-            "dataset": {"name": model_args.get("data")},
+            "datasets": {"name": model_args.get("data")},
             "lineage": {
                 "architecture": {"name": self.filename.replace(".pt", "").replace(".yaml", "")},
                 "parent": {},
@@ -219,7 +219,7 @@ class HUBTrainingSession:
         specific file setup.
 
         Raises:
-            ValueError: If the model is already trained, if required dataset information is missing, or if there are
+            ValueError: If the model is already trained, if required datasets information is missing, or if there are
                 issues with the provided training arguments.
         """
         if self.model.is_resumable():

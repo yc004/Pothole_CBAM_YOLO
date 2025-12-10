@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Discover Construction-PPE, a specialized dataset for detecting helmets, vests, gloves, boots, and goggles in real-world construction sites. Includes compliant and non-compliant scenarios for AI-powered safety monitoring.
-keywords: Construction-PPE, PPE dataset, safety compliance, construction workers, object detection, YOLO11, workplace safety, computer vision
+description: Discover Construction-PPE, a specialized datasets for detecting helmets, vests, gloves, boots, and goggles in real-world construction sites. Includes compliant and non-compliant scenarios for AI-powered safety monitoring.
+keywords: Construction-PPE, PPE datasets, safety compliance, construction workers, object detection, YOLO11, workplace safety, computer vision
 ---
 
 # Construction-PPE Dataset

@@ -579,7 +579,7 @@ def plot_labels(boxes, cls, names=(), save_dir=Path(""), on_plot=None):
     warnings.filterwarnings("ignore", category=UserWarning, message="The figure layout has changed to tight")
     warnings.filterwarnings("ignore", category=FutureWarning)
 
-    # Plot dataset labels
+    # Plot datasets labels
     LOGGER.info(f"Plotting labels to {save_dir / 'labels.jpg'}... ")
     nc = int(cls.max() + 1)  # number of classes
     boxes = boxes[:1000000]  # limit to 1M boxes

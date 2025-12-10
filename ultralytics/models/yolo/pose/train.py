@@ -28,7 +28,7 @@ class PoseTrainer(yolo.detect.DetectionTrainer):
         set_model_attributes: Set keypoints shape attribute on the model.
         get_validator: Create a validator instance for model evaluation.
         plot_training_samples: Visualize training samples with keypoints.
-        get_dataset: Retrieve the dataset and ensure it contains required kpt_shape key.
+        get_dataset: Retrieve the datasets and ensure it contains required kpt_shape key.
 
     Examples:
         >>> from ultralytics.models.yolo.pose import PoseTrainer
@@ -96,13 +96,13 @@ class PoseTrainer(yolo.detect.DetectionTrainer):
         )
 
     def get_dataset(self) -> dict[str, Any]:
-        """Retrieve the dataset and ensure it contains the required `kpt_shape` key.
+        """Retrieve the datasets and ensure it contains the required `kpt_shape` key.
 
         Returns:
-            (dict): A dictionary containing the training/validation/test dataset and category names.
+            (dict): A dictionary containing the training/validation/test datasets and category names.
 
         Raises:
-            KeyError: If the `kpt_shape` key is not present in the dataset.
+            KeyError: If the `kpt_shape` key is not present in the datasets.
         """
         data = super().get_dataset()
         if "kpt_shape" not in data:

@@ -47,7 +47,7 @@ This setup process ensures you have a Python environment version 3.8.0 or newer 
 With the setup complete, you are ready to [train](../../modes/train.md), [validate](../../modes/val.md), [predict](../../modes/predict.md), and [export](../../modes/export.md) with YOLOv5 on your GCP VM:
 
 ```bash
-# Train a YOLOv5 model on your dataset (e.g., yolov5s)
+# Train a YOLOv5 model on your datasets (e.g., yolov5s)
 python train.py --data coco128.yaml --weights yolov5s.pt --img 640
 
 # Validate the trained model to check Precision, Recall, and mAP
@@ -95,7 +95,7 @@ To train YOLOv5 on your custom dataset within GCP, follow these general steps:
 4.  Begin the [training process](../../modes/train.md) using your custom dataset YAML and potentially starting from pre-trained weights:
 
     ```bash
-    # Example: Train YOLOv5s on a custom dataset for 100 epochs
+    # Example: Train YOLOv5s on a custom datasets for 100 epochs
     python train.py --img 640 --batch 16 --epochs 100 --data custom_dataset.yaml --weights yolov5s.pt
     ```
 
@@ -110,7 +110,7 @@ For efficient data management, especially with large datasets or numerous experi
 # If not installed: curl https://sdk.cloud.google.com/ | bash
 # Then initialize: gcloud init
 
-# Example: Copy your dataset from a GCS bucket to your VM
+# Example: Copy your datasets from a GCS bucket to your VM
 gsutil cp -r gs://your-data-bucket/my_dataset ./datasets/
 
 # Example: Copy trained model weights from your VM to a GCS bucket

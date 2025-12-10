@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Discover the COCO128-Seg dataset by Ultralytics, a compact yet diverse segmentation dataset ideal for testing and training YOLO11 models.
-keywords: COCO128-Seg, Ultralytics, segmentation dataset, YOLO11, COCO 2017, model training, computer vision, dataset configuration
+description: Discover the COCO128-Seg datasets by Ultralytics, a compact yet diverse segmentation datasets ideal for testing and training YOLO11 models.
+keywords: COCO128-Seg, Ultralytics, segmentation datasets, YOLO11, COCO 2017, model training, computer vision, datasets configuration
 ---
 
 # COCO128-Seg Dataset

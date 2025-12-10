@@ -32,7 +32,7 @@ def check_class_names(names: list | dict) -> dict[int, str]:
         (dict): Class names in dict format with integer keys and string values.
 
     Raises:
-        KeyError: If class indices are invalid for the dataset size.
+        KeyError: If class indices are invalid for the datasets size.
     """
     if isinstance(names, list):  # names is a list
         names = dict(enumerate(names))  # convert to dict
@@ -42,8 +42,8 @@ def check_class_names(names: list | dict) -> dict[int, str]:
         n = len(names)
         if max(names.keys()) >= n:
             raise KeyError(
-                f"{n}-class dataset requires class indices 0-{n - 1}, but you have invalid class indices "
-                f"{min(names.keys())}-{max(names.keys())} defined in your dataset YAML."
+                f"{n}-class datasets requires class indices 0-{n - 1}, but you have invalid class indices "
+                f"{min(names.keys())}-{max(names.keys())} defined in your datasets YAML."
             )
         if isinstance(names[0], str) and names[0].startswith("n0"):  # imagenet class codes, i.e. 'n01440764'
             names_map = YAML.load(ROOT / "cfg/datasets/ImageNet.yaml")["map"]  # human-readable names

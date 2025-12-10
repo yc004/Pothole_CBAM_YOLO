@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the Fashion-MNIST dataset, a modern replacement for MNIST with 70,000 Zalando article images. Ideal for benchmarking machine learning models.
-keywords: Fashion-MNIST, image classification, Zalando dataset, machine learning, deep learning, CNN, dataset overview
+description: Explore the Fashion-MNIST datasets, a modern replacement for MNIST with 70,000 Zalando article images. Ideal for benchmarking machine learning models.
+keywords: Fashion-MNIST, image classification, Zalando datasets, machine learning, deep learning, CNN, datasets overview
 ---
 
 # Fashion-MNIST Dataset

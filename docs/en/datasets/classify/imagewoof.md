@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the ImageWoof dataset, a challenging subset of ImageNet focusing on 10 dog breeds, designed to enhance image classification models. Learn more on Ultralytics Docs.
-keywords: ImageWoof dataset, ImageNet subset, dog breeds, image classification, deep learning, machine learning, Ultralytics, training dataset, noisy labels
+description: Explore the ImageWoof datasets, a challenging subset of ImageNet focusing on 10 dog breeds, designed to enhance image classification models. Learn more on Ultralytics Docs.
+keywords: ImageWoof datasets, ImageNet subset, dog breeds, image classification, deep learning, machine learning, Ultralytics, training datasets, noisy labels
 ---
 
 # ImageWoof Dataset

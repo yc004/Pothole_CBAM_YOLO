@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the Ultralytics COCO128 dataset, a versatile and manageable set of 128 images perfect for testing object detection models and training pipelines.
-keywords: COCO128, Ultralytics, dataset, object detection, YOLO11, training, validation, machine learning, computer vision
+description: Explore the Ultralytics COCO128 datasets, a versatile and manageable set of 128 images perfect for testing object detection models and training pipelines.
+keywords: COCO128, Ultralytics, datasets, object detection, YOLO11, training, validation, machine learning, computer vision
 ---
 
 # COCO128 Dataset

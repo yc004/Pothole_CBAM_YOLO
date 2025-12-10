@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the MNIST dataset, a cornerstone in machine learning for handwritten digit recognition. Learn about its structure, features, and applications.
-keywords: MNIST, dataset, handwritten digits, image classification, deep learning, machine learning, training set, testing set, NIST
+description: Explore the MNIST datasets, a cornerstone in machine learning for handwritten digit recognition. Learn about its structure, features, and applications.
+keywords: MNIST, datasets, handwritten digits, image classification, deep learning, machine learning, training set, testing set, NIST
 ---
 
 # MNIST Dataset

@@ -1,6 +1,6 @@
 # Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
 """
-Check a model's accuracy on a test or val split of a dataset.
+Check a model's accuracy on a test or val split of a datasets.
 
 Usage:
     $ yolo mode=val model=yolo11n.pt data=coco8.yaml imgsz=640
@@ -50,7 +50,7 @@ class BaseValidator:
         args (SimpleNamespace): Configuration for the validator.
         dataloader (DataLoader): Dataloader to use for validation.
         model (nn.Module): Model to validate.
-        data (dict): Data dictionary containing dataset information.
+        data (dict): Data dictionary containing datasets information.
         device (torch.device): Device to use for validation.
         batch_i (int): Current batch index.
         training (bool): Whether the model is in training mode.
@@ -74,8 +74,8 @@ class BaseValidator:
         match_predictions: Match predictions to ground truth objects using IoU.
         add_callback: Append the given callback to the specified event.
         run_callbacks: Run all callbacks associated with a specified event.
-        get_dataloader: Get data loader from dataset path and batch size.
-        build_dataset: Build dataset from image path.
+        get_dataloader: Get data loader from datasets path and batch size.
+        build_dataset: Build datasets from image path.
         preprocess: Preprocess an input batch.
         postprocess: Postprocess the predictions.
         init_metrics: Initialize performance metrics for the YOLO model.
@@ -315,11 +315,11 @@ class BaseValidator:
             callback(self)
 
     def get_dataloader(self, dataset_path, batch_size):
-        """Get data loader from dataset path and batch size."""
+        """Get data loader from datasets path and batch size."""
         raise NotImplementedError("get_dataloader function not implemented for this validator")
 
     def build_dataset(self, img_path):
-        """Build dataset from image path."""
+        """Build datasets from image path."""
         raise NotImplementedError("build_dataset function not implemented in validator")
 
     def preprocess(self, batch):

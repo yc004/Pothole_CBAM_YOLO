@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Learn about Ultralytics YOLO format for pose estimation datasets, supported formats, COCO-Pose, COCO8-Pose, Tiger-Pose, and how to add your own dataset.
-keywords: pose estimation, Ultralytics, YOLO format, COCO-Pose, COCO8-Pose, Tiger-Pose, dataset conversion, keypoints
+description: Learn about Ultralytics YOLO format for pose estimation datasets, supported formats, COCO-Pose, COCO8-Pose, Tiger-Pose, and how to add your own datasets.
+keywords: pose estimation, Ultralytics, YOLO format, COCO-Pose, COCO8-Pose, Tiger-Pose, datasets conversion, keypoints
 ---
 
 # Pose Estimation Datasets Overview
@@ -188,7 +188,7 @@ To add your dataset:
     from ultralytics import YOLO
 
     model = YOLO("yolo11n-pose.pt")
-    results = model.train(data="your-dataset.yaml", epochs=100, imgsz=640)
+    results = model.train(data="your-datasets.yaml", epochs=100, imgsz=640)
     ```
 
     For complete steps, check the [Adding your own dataset](#adding-your-own-dataset) section.

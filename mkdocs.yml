@@ -520,7 +520,7 @@ nav:
           - hub/sdk/index.md
           - Quickstart: hub/sdk/quickstart.md
           - Model: hub/sdk/model.md
-          - Dataset: hub/sdk/dataset.md
+          - Dataset: hub/sdk/datasets.md
           - Project: hub/sdk/project.md
           - Reference:
               - base:
@@ -554,7 +554,7 @@ nav:
           - base: reference/data/base.md
           - build: reference/data/build.md
           - converter: reference/data/converter.md
-          - dataset: reference/data/dataset.md
+          - dataset: reference/data/datasets.md
           - loaders: reference/data/loaders.md
           - split: reference/data/split.md
           - split_dota: reference/data/split_dota.md

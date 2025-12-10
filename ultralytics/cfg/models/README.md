@@ -13,7 +13,7 @@ To begin, explore the models within this directory and select one that aligns wi
 Model `*.yaml` configuration files can be directly utilized in the [Command Line Interface (CLI)](https://docs.ultralytics.com/usage/cli/) using the `yolo` command:
 
 ```bash
-# Train a YOLO11n detection model using the coco8 dataset for 100 epochs
+# Train a YOLO11n detection model using the coco8 datasets for 100 epochs
 yolo task=detect mode=train model=yolo11n.yaml data=coco8.yaml epochs=100 imgsz=640
 ```
 
@@ -33,7 +33,7 @@ model = YOLO("yolo11n.yaml")
 # Display model information (architecture, layers, parameters, etc.)
 model.info()
 
-# Train the model using the COCO8 dataset (a small subset of COCO) for 100 epochs
+# Train the model using the COCO8 datasets (a small subset of COCO) for 100 epochs
 results = model.train(data="coco8.yaml", epochs=100, imgsz=640)
 
 # Run inference with the trained model on an image

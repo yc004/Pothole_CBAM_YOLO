@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Effortlessly manage, upload, and share your custom datasets on Ultralytics HUB for seamless model training integration. Simplify your workflow today!
-keywords: Ultralytics HUB, datasets, custom datasets, dataset management, model training, upload datasets, share datasets, dataset workflow
+keywords: Ultralytics HUB, datasets, custom datasets, datasets management, model training, upload datasets, share datasets, datasets workflow
 ---
 
 # Ultralytics HUB Datasets
@@ -51,7 +51,7 @@ After zipping your dataset, you should [validate it](https://docs.ultralytics.co
 ```python
 from ultralytics.hub import check_dataset
 
-check_dataset("path/to/dataset.zip", task="detect")
+check_dataset("path/to/datasets.zip", task="detect")
 ```
 
 Once your dataset ZIP is ready, navigate to the [Datasets](https://hub.ultralytics.com/datasets) page by clicking on the **Datasets** button in the sidebar and click on the **Upload Dataset** button on the top right of the page.

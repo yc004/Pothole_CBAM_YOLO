@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Learn how to structure datasets for YOLO classification tasks. Detailed folder structure and usage examples for effective training.
-keywords: YOLO, image classification, dataset structure, CIFAR-10, Ultralytics, machine learning, training data, model evaluation
+keywords: YOLO, image classification, datasets structure, CIFAR-10, Ultralytics, machine learning, training data, model evaluation
 ---
 
 # Image Classification Datasets Overview
@@ -165,7 +165,7 @@ from ultralytics import YOLO
 model = YOLO("yolo11n-cls.pt")  # load a pretrained model (recommended for training)
 
 # Train the model
-results = model.train(data="path/to/your/dataset", epochs=100, imgsz=640)
+results = model.train(data="path/to/your/datasets", epochs=100, imgsz=640)
 ```
 
 More details can be found in the [Adding your own dataset](#adding-your-own-dataset) section.

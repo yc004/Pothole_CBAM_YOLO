@@ -207,7 +207,7 @@ def update_models(model_names: tuple = ("yolo11n.pt",), source_dir: Path = Path(
         # Load model
         model = YOLO(model_path)
         model.half()
-        if update_names:  # update model names from a dataset YAML
+        if update_names:  # update model names from a datasets YAML
             model.model.names = default_class_names("coco8.yaml")
 
         # Define new save path

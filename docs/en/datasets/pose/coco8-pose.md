@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the compact, versatile COCO8-Pose dataset for testing and debugging object detection models. Ideal for quick experiments with YOLO11.
-keywords: COCO8-Pose, Ultralytics, pose detection dataset, object detection, YOLO11, machine learning, computer vision, training data
+description: Explore the compact, versatile COCO8-Pose datasets for testing and debugging object detection models. Ideal for quick experiments with YOLO11.
+keywords: COCO8-Pose, Ultralytics, pose detection datasets, object detection, YOLO11, machine learning, computer vision, training data
 ---
 
 # COCO8-Pose Dataset

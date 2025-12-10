@@ -20,10 +20,10 @@ class WorldTrainerFromScratch(WorldTrainer):
         overrides (dict): Dictionary of parameter overrides to customize the configuration.
         _callbacks (list): List of callback functions to be executed during different stages of training.
         data (dict): Final processed data configuration containing train/val paths and metadata.
-        training_data (dict): Dictionary mapping training dataset paths to their configurations.
+        training_data (dict): Dictionary mapping training datasets paths to their configurations.
 
     Methods:
-        build_dataset: Build YOLO Dataset for training or validation with mixed dataset support.
+        build_dataset: Build YOLO Dataset for training or validation with mixed datasets support.
         get_dataset: Get train and validation paths from data dictionary.
         plot_training_labels: Skip label plotting for YOLO-World training.
         final_eval: Perform final evaluation and validation for the YOLO-World model.
@@ -78,7 +78,7 @@ class WorldTrainerFromScratch(WorldTrainer):
             batch (int, optional): Size of batches, used for rectangular training/validation.
 
         Returns:
-            (YOLOConcatDataset | Dataset): The constructed dataset for training or validation.
+            (YOLOConcatDataset | Dataset): The constructed datasets for training or validation.
         """
         gs = max(int(unwrap_model(self.model).stride.max() if self.model else 0), 32)
         if mode != "train":
@@ -107,21 +107,21 @@ class WorldTrainerFromScratch(WorldTrainer):
         detection datasets and grounding datasets.
 
         Returns:
-            train_path (str): Train dataset path.
-            val_path (str): Validation dataset path.
+            train_path (str): Train datasets path.
+            val_path (str): Validation datasets path.
 
         Raises:
             AssertionError: If train or validation datasets are not found, or if validation has multiple datasets.
         """
         final_data = {}
         data_yaml = self.args.data
-        assert data_yaml.get("train", False), "train dataset not found"  # object365.yaml
-        assert data_yaml.get("val", False), "validation dataset not found"  # lvis.yaml
+        assert data_yaml.get("train", False), "train datasets not found"  # object365.yaml
+        assert data_yaml.get("val", False), "validation datasets not found"  # lvis.yaml
         data = {k: [check_det_dataset(d) for d in v.get("yolo_data", [])] for k, v in data_yaml.items()}
-        assert len(data["val"]) == 1, f"Only support validating on 1 dataset for now, but got {len(data['val'])}."
+        assert len(data["val"]) == 1, f"Only support validating on 1 datasets for now, but got {len(data['val'])}."
         val_split = "minival" if "lvis" in data["val"][0]["val"] else "val"
         for d in data["val"]:
-            if d.get("minival") is None:  # for lvis dataset
+            if d.get("minival") is None:  # for lvis datasets
                 continue
             d["minival"] = str(d["path"] / d["minival"])
         for s in {"train", "val"}:
@@ -138,7 +138,7 @@ class WorldTrainerFromScratch(WorldTrainer):
                     if not path.exists() and not path.is_absolute():
                         g[k] = str((DATASETS_DIR / g[k]).resolve())  # path relative to DATASETS_DIR
             final_data[s] += grounding_data
-        # assign the first val dataset as currently only one validation set is supported
+        # assign the first val datasets as currently only one validation set is supported
         data["val"] = data["val"][0]
         final_data["val"] = final_data["val"][0]
         # NOTE: to make training work properly, set `nc` and `names`
@@ -167,7 +167,7 @@ class WorldTrainerFromScratch(WorldTrainer):
     def final_eval(self):
         """Perform final evaluation and validation for the YOLO-World model.
 
-        Configures the validator with appropriate dataset and split information before running evaluation.
+        Configures the validator with appropriate datasets and split information before running evaluation.
 
         Returns:
             (dict): Dictionary containing evaluation metrics and results.

@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Discover HomeObjects-3K, a rich indoor object detection dataset with 12 classes like bed, sofa, TV, and laptop. Ideal for computer vision in smart homes, robotics, and AR.
-keywords: HomeObjects-3K, indoor dataset, household items, object detection, computer vision, YOLO11, smart home AI, robotics dataset
+description: Discover HomeObjects-3K, a rich indoor object detection datasets with 12 classes like bed, sofa, TV, and laptop. Ideal for computer vision in smart homes, robotics, and AR.
+keywords: HomeObjects-3K, indoor datasets, household items, object detection, computer vision, YOLO11, smart home AI, robotics datasets
 ---
 
 # HomeObjects-3K Dataset

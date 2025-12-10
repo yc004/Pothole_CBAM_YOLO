@@ -218,7 +218,7 @@ from ultralytics import YOLO
 # Load a model
 model = YOLO("yolo11n.pt")
 
-# Validate with a custom dataset
+# Validate with a custom datasets
 metrics = model.val(data="path/to/your/custom_dataset.yaml")
 print(metrics.box.map)  # map50-95
 ```

@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Learn to implement K-Fold Cross Validation for object detection datasets using Ultralytics YOLO. Improve your model's reliability and robustness.
-keywords: Ultralytics, YOLO, K-Fold Cross Validation, object detection, sklearn, pandas, PyYaml, machine learning, dataset split
+keywords: Ultralytics, YOLO, K-Fold Cross Validation, object detection, sklearn, pandas, PyYaml, machine learning, datasets split
 ---
 
 # K-Fold Cross Validation with Ultralytics
@@ -61,7 +61,7 @@ Without further ado, let's dive in!
     ```python
     from pathlib import Path
 
-    dataset_path = Path("./Fruit-detection")  # replace with 'path/to/dataset' for your custom data
+    dataset_path = Path("./Fruit-detection")  # replace with 'path/to/datasets' for your custom data
     labels = sorted(dataset_path.rglob("*labels/*.txt"))  # all data in 'labels'
     ```
 
@@ -184,7 +184,7 @@ The rows index the label files, each corresponding to an image in your dataset, 
     for ext in supported_extensions:
         images.extend(sorted((dataset_path / "images").rglob(f"*{ext}")))
 
-    # Create the necessary directories and dataset YAML files
+    # Create the necessary directories and datasets YAML files
     save_path = Path(dataset_path / f"{datetime.date.today().isoformat()}_{ksplit}-Fold_Cross-val")
     save_path.mkdir(parents=True, exist_ok=True)
     ds_yamls = []
@@ -198,7 +198,7 @@ The rows index the label files, each corresponding to an image in your dataset, 
         (split_dir / "val" / "images").mkdir(parents=True, exist_ok=True)
         (split_dir / "val" / "labels").mkdir(parents=True, exist_ok=True)
 
-        # Create dataset YAML files
+        # Create datasets YAML files
         dataset_yaml = split_dir / f"{split}_dataset.yaml"
         ds_yamls.append(dataset_yaml)
 
@@ -275,7 +275,7 @@ fold_lbl_distrb.to_csv(save_path / "kfold_label_distribution.csv")
     ```python
     from ultralytics.data.split import autosplit
 
-    # Automatically split dataset into train/val/test
+    # Automatically split datasets into train/val/test
     autosplit(path="path/to/images", weights=(0.8, 0.2, 0.0), annotated_only=True)
     ```
 

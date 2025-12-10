@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the Ultralytics Explorer API for dataset exploration with SQL queries, vector similarity search, and semantic search. Learn installation and usage tips.
-keywords: Ultralytics, Explorer API, dataset exploration, SQL queries, similarity search, semantic search, Python API, embeddings, data analysis
+description: Explore the Ultralytics Explorer API for datasets exploration with SQL queries, vector similarity search, and semantic search. Learn installation and usage tips.
+keywords: Ultralytics, Explorer API, datasets exploration, SQL queries, similarity search, semantic search, Python API, embeddings, data analysis
 ---
 
 # Ultralytics Explorer API
@@ -42,7 +42,7 @@ from ultralytics import Explorer
 # Create an Explorer object
 explorer = Explorer(data="coco128.yaml", model="yolo11n.pt")
 
-# Create embeddings for your dataset
+# Create embeddings for your datasets
 explorer.create_embeddings_table()
 
 # Search for similar images to a given image/images

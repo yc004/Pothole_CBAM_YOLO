@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the hand keypoints estimation dataset for advanced pose estimation. Learn about datasets, pretrained models, metrics, and applications for training with YOLO.
-keywords: Hand KeyPoints, pose estimation, dataset, keypoints, MediaPipe, YOLO, deep learning, computer vision
+description: Explore the hand keypoints estimation datasets for advanced pose estimation. Learn about datasets, pretrained models, metrics, and applications for training with YOLO.
+keywords: Hand KeyPoints, pose estimation, datasets, keypoints, MediaPipe, YOLO, deep learning, computer vision
 ---
 
 # Hand Keypoints Dataset

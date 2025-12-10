@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the xView dataset, a rich resource of 1M+ object instances in high-resolution satellite imagery. Enhance detection, learning efficiency, and more.
-keywords: xView dataset, overhead imagery, satellite images, object detection, high resolution, bounding boxes, computer vision, TensorFlow, PyTorch, dataset structure
+description: Explore the xView datasets, a rich resource of 1M+ object instances in high-resolution satellite imagery. Enhance detection, learning efficiency, and more.
+keywords: xView datasets, overhead imagery, satellite images, object detection, high resolution, bounding boxes, computer vision, TensorFlow, PyTorch, datasets structure
 ---
 
 # xView Dataset

@@ -100,7 +100,7 @@ class WorldTrainer(DetectionTrainer):
             batch (int, optional): Size of batches, this is for `rect`.
 
         Returns:
-            (Any): YOLO dataset configured for training or validation.
+            (Any): YOLO datasets configured for training or validation.
         """
         gs = max(int(unwrap_model(self.model).stride.max() if self.model else 0), 32)
         dataset = build_yolo_dataset(
@@ -122,7 +122,7 @@ class WorldTrainer(DetectionTrainer):
 
         Notes:
             This method collects category names from datasets that have the 'category_names' attribute,
-            then uses the first dataset's image path to determine where to cache the generated text embeddings.
+            then uses the first datasets's image path to determine where to cache the generated text embeddings.
         """
         text_embeddings = {}
         for dataset in datasets:

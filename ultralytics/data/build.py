@@ -38,7 +38,7 @@ class InfiniteDataLoader(dataloader.DataLoader):
     """Dataloader that reuses workers for infinite iteration.
 
     This dataloader extends the PyTorch DataLoader to provide infinite recycling of workers, which improves efficiency
-    for training loops that need to iterate through the dataset multiple times without recreating workers.
+    for training loops that need to iterate through the datasets multiple times without recreating workers.
 
     Attributes:
         batch_sampler (_RepeatSampler): A sampler that repeats indefinitely.
@@ -48,12 +48,12 @@ class InfiniteDataLoader(dataloader.DataLoader):
         __len__: Return the length of the batch sampler's sampler.
         __iter__: Create a sampler that repeats indefinitely.
         __del__: Ensure workers are properly terminated.
-        reset: Reset the iterator, useful when modifying dataset settings during training.
+        reset: Reset the iterator, useful when modifying datasets settings during training.
 
     Examples:
         Create an infinite dataloader for training
-        >>> dataset = YOLODataset(...)
-        >>> dataloader = InfiniteDataLoader(dataset, batch_size=16, shuffle=True)
+        >>> datasets = YOLODataset(...)
+        >>> dataloader = InfiniteDataLoader(datasets, batch_size=16, shuffle=True)
         >>> for batch in dataloader:  # Infinite iteration
         >>>     train_step(batch)
     """
@@ -88,7 +88,7 @@ class InfiniteDataLoader(dataloader.DataLoader):
             pass
 
     def reset(self):
-        """Reset the iterator to allow modifications to the dataset during training."""
+        """Reset the iterator to allow modifications to the datasets during training."""
         self.iterator = self._get_iterator()
 
 
@@ -96,7 +96,7 @@ class _RepeatSampler:
     """Sampler that repeats forever for infinite iteration.
 
     This sampler wraps another sampler and yields its contents indefinitely, allowing for infinite iteration over a
-    dataset without recreating the sampler.
+    datasets without recreating the sampler.
 
     Attributes:
         sampler (Dataset.sampler): The sampler to repeat.
@@ -113,12 +113,12 @@ class _RepeatSampler:
 
 
 class ContiguousDistributedSampler(torch.utils.data.Sampler):
-    """Distributed sampler that assigns contiguous batch-aligned chunks of the dataset to each GPU.
+    """Distributed sampler that assigns contiguous batch-aligned chunks of the datasets to each GPU.
 
     Unlike PyTorch's DistributedSampler which distributes samples in a round-robin fashion (GPU 0 gets indices
-    [0,2,4,...], GPU 1 gets [1,3,5,...]), this sampler gives each GPU contiguous batches of the dataset (GPU 0 gets
+    [0,2,4,...], GPU 1 gets [1,3,5,...]), this sampler gives each GPU contiguous batches of the datasets (GPU 0 gets
     batches [0,1,2,...], GPU 1 gets batches [k,k+1,...], etc.). This preserves any ordering or grouping in the original
-    dataset, which is critical when samples are organized by similarity (e.g., images sorted by size to enable efficient
+    datasets, which is critical when samples are organized by similarity (e.g., images sorted by size to enable efficient
     batching without padding when using rect=True).
 
     The sampler handles uneven batch counts by distributing remainder batches to the first few ranks, ensuring all
@@ -127,7 +127,7 @@ class ContiguousDistributedSampler(torch.utils.data.Sampler):
     Args:
         dataset (Dataset): Dataset to sample from. Must implement __len__.
         num_replicas (int, optional): Number of distributed processes. Defaults to world size.
-        batch_size (int, optional): Batch size used by dataloader. Defaults to dataset batch size.
+        batch_size (int, optional): Batch size used by dataloader. Defaults to datasets batch size.
         rank (int, optional): Rank of current process. Defaults to current rank.
         shuffle (bool, optional): Whether to shuffle indices within each rank's chunk. Defaults to False. When True,
             shuffling is deterministic and controlled by set_epoch() for reproducibility.
@@ -152,7 +152,7 @@ class ContiguousDistributedSampler(torch.utils.data.Sampler):
         rank: int | None = None,
         shuffle: bool = False,
     ) -> None:
-        """Initialize the sampler with dataset and distributed training parameters."""
+        """Initialize the sampler with datasets and distributed training parameters."""
         if num_replicas is None:
             num_replicas = dist.get_world_size() if dist.is_initialized() else 1
         if rank is None:
@@ -189,7 +189,7 @@ class ContiguousDistributedSampler(torch.utils.data.Sampler):
         return start_idx, end_idx
 
     def __iter__(self) -> Iterator:
-        """Generate indices for this rank's contiguous chunk of the dataset."""
+        """Generate indices for this rank's contiguous chunk of the datasets."""
         start_idx, end_idx = self._get_rank_indices()
         indices = list(range(start_idx, end_idx))
 
@@ -231,7 +231,7 @@ def build_yolo_dataset(
     stride: int = 32,
     multi_modal: bool = False,
 ) -> Dataset:
-    """Build and return a YOLO dataset based on configuration parameters."""
+    """Build and return a YOLO datasets based on configuration parameters."""
     dataset = YOLOMultiModalDataset if multi_modal else YOLODataset
     return dataset(
         img_path=img_path,
@@ -298,7 +298,7 @@ def build_dataloader(
         dataset (Dataset): Dataset to load data from.
         batch (int): Batch size for the dataloader.
         workers (int): Number of worker threads for loading data.
-        shuffle (bool, optional): Whether to shuffle the dataset.
+        shuffle (bool, optional): Whether to shuffle the datasets.
         rank (int, optional): Process rank in distributed training. -1 for single-GPU training.
         drop_last (bool, optional): Whether to drop the last incomplete batch.
         pin_memory (bool, optional): Whether to use pinned memory for dataloader.
@@ -308,8 +308,8 @@ def build_dataloader(
 
     Examples:
         Create a dataloader for training
-        >>> dataset = YOLODataset(...)
-        >>> dataloader = build_dataloader(dataset, batch=16, workers=4, shuffle=True)
+        >>> datasets = YOLODataset(...)
+        >>> dataloader = build_dataloader(datasets, batch=16, workers=4, shuffle=True)
     """
     batch = min(batch, len(dataset))
     nd = torch.cuda.device_count()  # number of CUDA devices
@@ -405,14 +405,14 @@ def load_inference_source(
         channels (int, optional): The number of input channels for the model.
 
     Returns:
-        (Dataset): A dataset object for the specified input source with attached source_type attribute.
+        (Dataset): A datasets object for the specified input source with attached source_type attribute.
 
     Examples:
         Load an image source for inference
-        >>> dataset = load_inference_source("image.jpg", batch=1)
+        >>> datasets = load_inference_source("image.jpg", batch=1)
 
         Load a video stream source
-        >>> dataset = load_inference_source("rtsp://example.com/stream", vid_stride=2)
+        >>> datasets = load_inference_source("rtsp://example.com/stream", vid_stride=2)
     """
     source, stream, screenshot, from_img, in_memory, tensor = check_source(source)
     source_type = source.source_type if in_memory else SourceTypes(stream, screenshot, from_img, tensor)
@@ -431,7 +431,7 @@ def load_inference_source(
     else:
         dataset = LoadImagesAndVideos(source, batch=batch, vid_stride=vid_stride, channels=channels)
 
-    # Attach source types to the dataset
+    # Attach source types to the datasets
     setattr(dataset, "source_type", source_type)
 
     return dataset

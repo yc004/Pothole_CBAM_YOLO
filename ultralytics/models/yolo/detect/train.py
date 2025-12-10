@@ -25,18 +25,18 @@ class DetectionTrainer(BaseTrainer):
     """A class extending the BaseTrainer class for training based on a detection model.
 
     This trainer specializes in object detection tasks, handling the specific requirements for training YOLO models for
-    object detection including dataset building, data loading, preprocessing, and model configuration.
+    object detection including datasets building, data loading, preprocessing, and model configuration.
 
     Attributes:
         model (DetectionModel): The YOLO detection model being trained.
-        data (dict): Dictionary containing dataset information including class names and number of classes.
+        data (dict): Dictionary containing datasets information including class names and number of classes.
         loss_names (tuple): Names of the loss components used in training (box_loss, cls_loss, dfl_loss).
 
     Methods:
-        build_dataset: Build YOLO dataset for training or validation.
+        build_dataset: Build YOLO datasets for training or validation.
         get_dataloader: Construct and return dataloader for the specified mode.
         preprocess_batch: Preprocess a batch of images by scaling and converting to float.
-        set_model_attributes: Set model attributes based on dataset information.
+        set_model_attributes: Set model attributes based on datasets information.
         get_model: Return a YOLO detection model.
         get_validator: Return a validator for model evaluation.
         label_loss_items: Return a loss dictionary with labeled training loss items.
@@ -71,7 +71,7 @@ class DetectionTrainer(BaseTrainer):
             batch (int, optional): Size of batches, this is for 'rect' mode.
 
         Returns:
-            (Dataset): YOLO dataset object configured for the specified mode.
+            (Dataset): YOLO datasets object configured for the specified mode.
         """
         gs = max(int(unwrap_model(self.model).stride.max() if self.model else 0), 32)
         return build_yolo_dataset(self.args, img_path, batch, self.data, mode=mode, rect=mode == "val", stride=gs)
@@ -80,7 +80,7 @@ class DetectionTrainer(BaseTrainer):
         """Construct and return dataloader for the specified mode.
 
         Args:
-            dataset_path (str): Path to the dataset.
+            dataset_path (str): Path to the datasets.
             batch_size (int): Number of images per batch.
             rank (int): Process rank for distributed training.
             mode (str): 'train' for training dataloader, 'val' for validation dataloader.
@@ -89,7 +89,7 @@ class DetectionTrainer(BaseTrainer):
             (DataLoader): PyTorch dataloader object.
         """
         assert mode in {"train", "val"}, f"Mode must be 'train' or 'val', not {mode}."
-        with torch_distributed_zero_first(rank):  # init dataset *.cache only once if DDP
+        with torch_distributed_zero_first(rank):  # init datasets *.cache only once if DDP
             dataset = self.build_dataset(dataset_path, mode, batch_size)
         shuffle = mode == "train"
         if getattr(dataset, "rect", False) and shuffle:
@@ -134,7 +134,7 @@ class DetectionTrainer(BaseTrainer):
         return batch
 
     def set_model_attributes(self):
-        """Set model attributes based on dataset information."""
+        """Set model attributes based on datasets information."""
         # Nl = de_parallel(self.model).model[-1].nl  # number of detection layers (to scale hyps)
         # self.args.box *= 3 / nl  # scale to layers
         # self.args.cls *= self.data["nc"] / 80 * 3 / nl  # scale to classes and layers
@@ -142,7 +142,7 @@ class DetectionTrainer(BaseTrainer):
         self.model.nc = self.data["nc"]  # attach number of classes to model
         self.model.names = self.data["names"]  # attach class names to model
         self.model.args = self.args  # attach hyperparameters to model
-        # TODO: self.model.class_weights = labels_to_class_weights(dataset.labels, nc).to(device) * nc
+        # TODO: self.model.class_weights = labels_to_class_weights(datasets.labels, nc).to(device) * nc
 
     def get_model(self, cfg: str | None = None, weights: str | None = None, verbose: bool = True):
         """Return a YOLO detection model.

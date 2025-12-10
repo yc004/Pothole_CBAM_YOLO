@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the SKU-110k dataset of densely packed retail shelf images, perfect for training and evaluating deep learning models in object detection tasks.
-keywords: SKU-110k, dataset, object detection, retail shelf images, deep learning, computer vision, model training
+description: Explore the SKU-110k datasets of densely packed retail shelf images, perfect for training and evaluating deep learning models in object detection tasks.
+keywords: SKU-110k, datasets, object detection, retail shelf images, deep learning, computer vision, model training
 ---
 
 # SKU-110k Dataset

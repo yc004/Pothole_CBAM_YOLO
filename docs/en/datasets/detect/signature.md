@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Discover the Signature Detection Dataset for training models to identify and verify human signatures in various documents. Perfect for document verification and fraud prevention.
-keywords: Signature Detection Dataset, document verification, fraud detection, computer vision, YOLO11, Ultralytics, annotated signatures, training dataset
+keywords: Signature Detection Dataset, document verification, fraud detection, computer vision, YOLO11, Ultralytics, annotated signatures, training datasets
 ---
 
 # Signature Detection Dataset

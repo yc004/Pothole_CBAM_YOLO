@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Explore the COCO-Pose dataset for advanced pose estimation. Learn about datasets, pretrained models, metrics, and applications for training with YOLO.
-keywords: COCO-Pose, pose estimation, dataset, keypoints, COCO Keypoints 2017, YOLO, deep learning, computer vision
+description: Explore the COCO-Pose datasets for advanced pose estimation. Learn about datasets, pretrained models, metrics, and applications for training with YOLO.
+keywords: COCO-Pose, pose estimation, datasets, keypoints, COCO Keypoints 2017, YOLO, deep learning, computer vision
 ---
 
 # COCO-Pose Dataset
