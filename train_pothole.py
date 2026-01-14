@@ -68,7 +68,8 @@ def train_main():
         exist_ok=True,
         optimizer='SGD',  # SGD 对小数据集通常更稳
         lr0=0.01,
-        plots=True  # 自动画出混淆矩阵和 PR 曲线
+        plots=True,  # 自动画出混淆矩阵和 PR 曲线
+        workers=2  # Windows下减少workers以防报错
     )
 
     print(f"🎉 训练完成！结果保存在 {PROJECT_NAME}/exp_cbam 目录下")
