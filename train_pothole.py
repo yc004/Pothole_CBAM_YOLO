@@ -1,16 +1,16 @@
-import warnings
-import sys
 import os
+import sys
+import warnings
 
 # 修复 Windows 下中文乱码问题
-if sys.platform.startswith('win'):
-    os.system('chcp 65001 >nul')
-    if hasattr(sys.stdout, 'reconfigure'):
-        sys.stdout.reconfigure(encoding='utf-8')
-    if hasattr(sys.stderr, 'reconfigure'):
-        sys.stderr.reconfigure(encoding='utf-8')
+if sys.platform.startswith("win"):
+    os.system("chcp 65001 >nul")
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 from ultralytics import YOLO
 
 # ================= 坑洼检测项目配置 =================
@@ -25,10 +25,11 @@ MODEL_CFG = "yolov8n_cbam.yaml"  # 你的创新点模型结构 (带CBAM)
 EPOCHS = 100  # 建议 100 轮，观察 mAP 曲线
 BATCH_SIZE = 16  # 显存不够改小 (8 或 4)
 IMG_SIZE = 640
-DEVICE = '0'  # 如果用 CPU 请改为 'cpu'
+DEVICE = "0"  # 如果用 CPU 请改为 'cpu'
 
 
 # ==================================================
+
 
 def train_main():
     # 检查文件是否存在
@@ -49,31 +50,31 @@ def train_main():
     # 虽然结构变了，但我们加载官方 yolov8n.pt 的权重，能让模型收敛快很多
     # 不匹配的层（比如新增的 CBAM）会自动跳过，匹配的层会加载
     try:
-        model.load('yolov8n.pt')
+        model.load("yolov8n.pt")
         print("✅ 预训练权重 yolov8n.pt 加载成功 (部分层)")
     except Exception as e:
         print("⚠️ 预训练权重加载提示 (正常):", e)
 
     # 3. 开始训练
-    results = model.train(
+    model.train(
         data=DATASET_YAML,
         epochs=EPOCHS,
         imgsz=IMG_SIZE,
         batch=BATCH_SIZE,
         device=DEVICE,
         project=PROJECT_NAME,
-        name='exp_cbam',  # 实验名称
+        name="exp_cbam",  # 实验名称
         patience=20,  # 早停
         save=True,
         exist_ok=True,
-        optimizer='SGD',  # SGD 对小数据集通常更稳
+        optimizer="SGD",  # SGD 对小数据集通常更稳
         lr0=0.01,
-        plots=True  # 自动画出混淆矩阵和 PR 曲线
+        plots=True,  # 自动画出混淆矩阵和 PR 曲线
     )
 
     print(f"🎉 训练完成！结果保存在 {PROJECT_NAME}/exp_cbam 目录下")
     print("💡 提示: 请查看 results.png 查看 mAP 提升情况")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     train_main()
