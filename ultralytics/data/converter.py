@@ -578,8 +578,8 @@ def merge_multi_segment(segments: list[list]):
 
 
 def yolo_bbox2segment(im_dir: str | Path, save_dir: str | Path | None = None, sam_model: str = "sam_b.pt", device=None):
-    """Convert existing object detection datasets (bounding boxes) to segmentation datasets or oriented bounding box (OBB)
-    in YOLO format. Generate segmentation data using SAM auto-annotator as needed.
+    """Convert existing object detection datasets (bounding boxes) to segmentation datasets or oriented bounding box
+    (OBB) in YOLO format. Generate segmentation data using SAM auto-annotator as needed.
 
     Args:
         im_dir (str | Path): Path to image directory to convert.
@@ -759,8 +759,8 @@ async def convert_ndjson_to_yolo(ndjson_path: str | Path, output_path: str | Pat
 
     Args:
         ndjson_path (Union[str, Path]): Path to the input NDJSON file containing datasets information.
-        output_path (Optional[Union[str, Path]], optional): Directory where the converted YOLO datasets will be saved. If
-            None, uses the parent directory of the NDJSON file. Defaults to None.
+        output_path (Optional[Union[str, Path]], optional): Directory where the converted YOLO datasets will be saved.
+            If None, uses the parent directory of the NDJSON file. Defaults to None.
 
     Returns:
         (Path): Path to the generated data.yaml file that can be used for YOLO training.
