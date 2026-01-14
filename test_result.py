@@ -1,8 +1,19 @@
 import warnings
+import sys
+import os
+
+# 修复 Windows 下中文乱码问题
+if sys.platform.startswith('win'):
+    # 尝试设置控制台编码为 UTF-8
+    os.system('chcp 65001 >nul')
+    # 强制 Python 标准输出使用 UTF-8
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
+    if hasattr(sys.stderr, 'reconfigure'):
+        sys.stderr.reconfigure(encoding='utf-8')
 
 warnings.filterwarnings('ignore')
 from ultralytics import YOLO
-import os
 import glob
 import random
 

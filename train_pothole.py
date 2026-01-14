@@ -1,8 +1,17 @@
 import warnings
+import sys
+import os
+
+# 修复 Windows 下中文乱码问题
+if sys.platform.startswith('win'):
+    os.system('chcp 65001 >nul')
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
+    if hasattr(sys.stderr, 'reconfigure'):
+        sys.stderr.reconfigure(encoding='utf-8')
 
 warnings.filterwarnings('ignore')
 from ultralytics import YOLO
-import os
 
 # ================= 坑洼检测项目配置 =================
 # 1. 项目命名 (训练结果会保存在 runs/detect/Pothole_CBAM_Project)
