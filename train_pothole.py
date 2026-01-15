@@ -23,7 +23,7 @@ MODEL_CFG = "yolov8n_cbam.yaml"  # 你的创新点模型结构 (带CBAM)
 
 # 3. 训练参数
 EPOCHS = 100  # 建议 100 轮，观察 mAP 曲线
-BATCH_SIZE = 16  # 显存不够改小 (8 或 4)
+BATCH_SIZE = 256  # 显存不够改小 (8 或 4)
 IMG_SIZE = 640
 DEVICE = '0'  # 如果用 CPU 请改为 'cpu'
 

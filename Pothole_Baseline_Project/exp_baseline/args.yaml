@@ -5,13 +5,13 @@ data: pothole_config.yaml
 epochs: 100
 time: null
 patience: 20
-batch: 8
+batch: 128
 imgsz: 640
 save: true
 save_period: -1
 cache: false
 device: '0'
-workers: 0
+workers: 2
 project: Pothole_Baseline_Project
 name: exp_baseline
 exist_ok: true
@@ -103,4 +103,4 @@ auto_augment: randaugment
 erasing: 0.4
 cfg: null
 tracker: botsort.yaml
-save_dir: D:\Desktop\教材\深度学习\大作业\yolov8\Pothole_Baseline_Project\exp_baseline
+save_dir: C:\Users\vipuser\Desktop\yolo\Pothole_CBAM_YOLO\Pothole_Baseline_Project\exp_baseline

@@ -54,6 +54,33 @@ CBAM 是一种轻量级的注意力模块，它可以集成到任何卷积神经
 **总结**:
 通过这两步（先过滤特征，再聚焦位置），你的模型比原始模型**看得更准**（不容易把影子当坑洼），也**找得更快**（不浪费精力在无关背景上）。这就是为什么加上 CBAM 能提高检测精度的原因。
 
+## � 实验环境与配置
+
+本项目在以下高性能计算环境下进行了训练与测试，验证了改进算法的有效性。
+
+*   **操作系统**: Windows 10 LTSC (CUDA 12.6)
+*   **GPU**: NVIDIA A800-SXM4-40GB (1张, 40GB 显存)
+*   **CPU**: 64 核高性能处理器
+*   **内存**: 96GB
+*   **深度学习框架**: PyTorch (配合 CUDA 12.6)
+*   **关键训练参数**:
+    *   Batch Size: 256
+    *   Image Size: 640
+
+## 📊 数据集介绍
+
+本项目使用的数据集来源于 Roboflow Universe 的公开数据集，专门用于路面坑洼检测任务。
+
+*   **数据集名称**: New Pothole Detection
+*   **数据来源**: [Roboflow Universe](https://universe.roboflow.com/smartathon/new-pothole-detection)
+*   **图片总数**: 9,240 张
+*   **类别**: 单类别 (`Pothole`)
+*   **预处理**:
+    *   所有图片已统一调整大小为 **640x640**。
+    *   应用了自动方向校正 (Auto-orientation)。
+*   **数据划分**:
+    *   数据集已按比例划分为训练集 (Train)、验证集 (Valid) 和测试集 (Test)，直接适配 YOLOv8 训练格式。
+
 ## 📂 目录结构
 
 - `ultralytics/`: YOLOv8 核心源码 (已修改以支持 CBAM)

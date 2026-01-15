@@ -22,7 +22,7 @@ DATASET_YAML = "pothole_config.yaml"  # 数据集配置
 
 # 3. 训练参数
 EPOCHS = 100
-BATCH_SIZE = 16  # 显存不够改小 (16 -> 8)
+BATCH_SIZE = 256  # A800 40G 显存可以开很大 (建议 256 或 512)
 IMG_SIZE = 640
 DEVICE = '0'
 
@@ -62,7 +62,7 @@ def train_main():
         optimizer='SGD',
         lr0=0.01,
         plots=True,
-        workers=2  # Windows下减少workers以防报错
+        workers=16  # 服务器性能较好时增加 workers 加快数据加载
     )
 
     print(f"🎉 训练完成！结果保存在 {PROJECT_NAME}/exp_baseline 目录下")
