@@ -5,7 +5,7 @@ data: pothole_config.yaml
 epochs: 100
 time: null
 patience: 20
-batch: 256
+batch: 128
 imgsz: 640
 save: true
 save_period: -1
@@ -103,4 +103,4 @@ auto_augment: randaugment
 erasing: 0.4
 cfg: null
 tracker: botsort.yaml
-save_dir: D:\Desktop\教材\深度学习\大作业\yolov8\Pothole_CBAM_Project\exp_cbam
+save_dir: /mnt/Pothole_CBAM_YOLO/Pothole_CBAM_Project/exp_cbam

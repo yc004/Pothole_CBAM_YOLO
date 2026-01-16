@@ -15,11 +15,140 @@ if sys.platform.startswith('win'):
 
 import gradio as gr
 import cv2
+import torch
 from ultralytics import YOLO
 from PIL import Image
 import numpy as np
 import subprocess
 import shutil
+
+# ================= 热力图工具类 =================
+class ActivationHook:
+    def __init__(self):
+        self.activation = None
+
+    def hook_fn(self, module, input, output):
+        self.activation = output.detach()
+
+def generate_heatmap(activation, img_size):
+    # activation: (1, C, H, W)
+    if activation is None:
+        print("⚠️ Heatmap Error: Activation is None")
+        return None
+        
+    if activation.numel() == 0:
+        print("⚠️ Heatmap Error: Activation is empty")
+        return None
+
+    # Debug activation stats
+    # print(f"DEBUG: Activation shape: {activation.shape}, Range: [{activation.min():.4f}, {activation.max():.4f}]")
+
+    # 1. Pre-process: Clamp negative values to 0 (SiLU/ReLU outputs)
+    # This prevents negative activations from cancelling out positive ones during averaging
+    activation = activation.clamp(min=0)
+
+    # 2. Aggregation: Use Mean of activations (or could use Max)
+    heatmap = torch.mean(activation, dim=1).squeeze()
+    
+    # 3. Move to CPU
+    heatmap = heatmap.cpu().numpy()
+    
+    # 4. Normalization
+    max_val = np.max(heatmap)
+    min_val = np.min(heatmap)
+    
+    # Check if we have a valid range
+    if max_val <= 0:
+        # This implies no positive activation at all in the entire layer
+        # print(f"⚠️ Heatmap Warning: No positive activation (Max={max_val}).")
+        return None
+        
+    if max_val - min_val == 0:
+        heatmap = np.zeros_like(heatmap)
+    else:
+        heatmap = (heatmap - min_val) / (max_val - min_val)
+        
+    heatmap = (heatmap * 255).astype(np.uint8)
+    heatmap = cv2.resize(heatmap, img_size)
+    heatmap_color = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
+    return heatmap_color
+
+def get_heatmap_for_model(model, pil_img):
+    # Ensure consistent input format (Numpy BGR)
+    img_rgb = np.array(pil_img)
+    img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+    img_h, img_w = img_rgb.shape[:2]
+    
+    hook = ActivationHook()
+    target_layer = None
+    layer_name = "Unknown"
+    
+    # --- Robust Layer Finding (Index Based) ---
+    try:
+        if hasattr(model.model, 'model'):
+            model_layers = model.model.model
+            
+            # Check for CBAM model heuristic
+            is_cbam_model = False
+            for m in model_layers:
+                if 'CBAM' in m.__class__.__name__:
+                    is_cbam_model = True
+                    break
+            
+            if is_cbam_model:
+                # CBAM Model: Layer 9 is CBAM, Layer 10 is SPPF.
+                # We want SPPF (Layer 10)
+                if len(model_layers) > 10:
+                    target_layer = model_layers[10]
+                    layer_name = f"Layer 10 ({target_layer.__class__.__name__})"
+                elif len(model_layers) > 9:
+                    target_layer = model_layers[9]
+                    layer_name = f"Layer 9 ({target_layer.__class__.__name__})"
+            else:
+                # Baseline Model: Layer 9 is SPPF.
+                if len(model_layers) > 9:
+                    target_layer = model_layers[9]
+                    layer_name = f"Layer 9 ({target_layer.__class__.__name__})"
+                    
+    except Exception as e:
+        print(f"Error accessing model layers: {e}")
+
+    # Fallback: Search by name
+    if target_layer is None:
+        for m in model.model.modules():
+            if m.__class__.__name__ == 'SPPF':
+                target_layer = m
+                layer_name = "SPPF (Module Search)"
+                break
+
+    heatmap_overlay = img_rgb # Default to original image
+    
+    if target_layer:
+        # print(f"DEBUG: Hooking {layer_name}")
+        handle = target_layer.register_forward_hook(hook.hook_fn)
+        
+        try:
+            # Use BGR numpy array for inference
+            model.predict(img_bgr, verbose=False, conf=0.25)
+        except Exception as e:
+            print(f"Inference failed: {e}")
+            
+        handle.remove()
+        
+        if hook.activation is not None:
+            heatmap_color = generate_heatmap(hook.activation, (img_w, img_h))
+            if heatmap_color is not None:
+                # heatmap_color is BGR. Convert to RGB for display
+                heatmap_rgb = cv2.cvtColor(heatmap_color, cv2.COLOR_BGR2RGB)
+                heatmap_overlay = cv2.addWeighted(img_rgb, 0.6, heatmap_rgb, 0.4, 0)
+            else:
+                print(f"DEBUG: Heatmap generation returned None for {layer_name}")
+        else:
+            print(f"DEBUG: No activation captured for {layer_name}")
+    else:
+        print("DEBUG: No target layer found for heatmap")
+        
+    return heatmap_overlay
 
 # ================= 配置 =================
 # 权重路径
@@ -42,10 +171,10 @@ def detect_pothole(image):
     """
     执行路面坑洼检测 (对比模式)
     :param image: 输入图片 (PIL.Image)
-    :return: 基线结果图, 改进结果图, 检测信息文本
+    :return: 基线结果图, 改进结果图, 基线热力图, 改进热力图, 检测信息文本
     """
     if image is None:
-        return None, None, "请先上传图片"
+        return None, None, None, None, "请先上传图片"
 
     # 1. 基线模型推理
     results_baseline = model_baseline.predict(image, conf=0.25)
@@ -53,6 +182,9 @@ def detect_pothole(image):
     plot_base_bgr = res_base.plot()
     plot_base_rgb = plot_base_bgr[..., ::-1] # BGR to RGB
     count_base = len(res_base.boxes)
+    
+    # 生成基线热力图
+    heatmap_base = get_heatmap_for_model(model_baseline, image)
 
     # 2. 改进模型推理
     results_cbam = model_cbam.predict(image, conf=0.25)
@@ -61,15 +193,18 @@ def detect_pothole(image):
     plot_cbam_rgb = plot_cbam_bgr[..., ::-1] # BGR to RGB
     count_cbam = len(res_cbam.boxes)
     
+    # 生成改进热力图
+    heatmap_cbam = get_heatmap_for_model(model_cbam, image)
+    
     info = (f"✅ 检测完成！\n"
             f"🔹 基线模型检测到: {count_base} 个目标\n"
             f"🔸 改进模型检测到: {count_cbam} 个目标")
     
-    return plot_base_rgb, plot_cbam_rgb, info
+    return plot_base_rgb, plot_cbam_rgb, heatmap_base, heatmap_cbam, info
 
 def detect_video(video_path):
     """
-    处理视频文件 (对比模式 - 合并显示)
+    处理视频文件 (对比模式 - 合并显示 - 包含热力图)
     """
     if video_path is None:
         return None, "请上传视频"
@@ -84,48 +219,127 @@ def detect_video(video_path):
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     
-    # 输出视频宽度为两倍 (左右并排)
+    # 输出视频布局: 2x2 网格
+    # Top Left: Baseline Detection | Top Right: CBAM Detection
+    # Bot Left: Baseline Heatmap   | Bot Right: CBAM Heatmap
     new_width = width * 2
+    new_height = height * 2
     
     # OpenCV 写入临时文件
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out = cv2.VideoWriter(temp_raw_combined, fourcc, fps, (new_width, height))
+    out = cv2.VideoWriter(temp_raw_combined, fourcc, fps, (new_width, new_height))
     
     frame_count = 0
     total_detections_base = 0
     total_detections_cbam = 0
     
-    print("🔄 正在逐帧处理视频 (合并模式)...")
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
+    # 准备 Hook
+    hook_base = ActivationHook()
+    hook_cbam = ActivationHook()
+    
+    layer_base = None
+    layer_cbam = None
+    
+    # Try to hook Layer 8 (C2f) for both models
+    target_index = 8
+    
+    try:
+        if hasattr(model_baseline.model, 'model'):
+            if len(model_baseline.model.model) > target_index:
+                layer_base = model_baseline.model.model[target_index]
         
-        # 1. Baseline Inference
-        results_base = model_baseline.predict(frame, conf=0.25, verbose=False)
-        annotated_frame_base = results_base[0].plot()
-        total_detections_base += len(results_base[0].boxes)
-        
-        # 添加标签
-        cv2.putText(annotated_frame_base, "Baseline", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 
-                    1.2, (0, 0, 255), 3, cv2.LINE_AA)
+        if hasattr(model_cbam.model, 'model'):
+             if len(model_cbam.model.model) > target_index:
+                layer_cbam = model_cbam.model.model[target_index]
+    except:
+        pass
 
-        # 2. CBAM Inference
-        results_cbam = model_cbam.predict(frame, conf=0.25, verbose=False)
-        annotated_frame_cbam = results_cbam[0].plot()
-        total_detections_cbam += len(results_cbam[0].boxes)
+    # Fallback search if index failed
+    if layer_base is None:
+        for m in model_baseline.model.modules():
+            if m.__class__.__name__ == 'SPPF': # Fallback to SPPF
+                layer_base = m
+                break
+            
+    if layer_cbam is None:
+        for m in model_cbam.model.modules():
+            if m.__class__.__name__ == 'SPPF':
+                layer_cbam = m
+                break
+            
+    # 注册 Hook
+    handle_base = None
+    if layer_base:
+        handle_base = layer_base.register_forward_hook(hook_base.hook_fn)
         
-        # 添加标签
-        cv2.putText(annotated_frame_cbam, "CBAM (Improved)", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 
-                    1.2, (0, 255, 0), 3, cv2.LINE_AA)
-        
-        # 3. 合并画面
-        combined_frame = np.hstack((annotated_frame_base, annotated_frame_cbam))
-        out.write(combined_frame)
-        
-        frame_count += 1
-        if frame_count % 10 == 0:
-            print(f"   已处理 {frame_count} 帧...", end="\r")
+    handle_cbam = None
+    if layer_cbam:
+        handle_cbam = layer_cbam.register_forward_hook(hook_cbam.hook_fn)
+    
+    print("🔄 正在逐帧处理视频 (合并模式 + 热力图)...")
+    try:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+            
+            # 1. Baseline Inference
+            # frame is BGR
+            results_base = model_baseline.predict(frame, conf=0.25, verbose=False)
+            annotated_frame_base = results_base[0].plot()
+            total_detections_base += len(results_base[0].boxes)
+            
+            # Generate Baseline Heatmap
+            heatmap_vis_base = frame.copy() # fallback
+            if hook_base.activation is not None:
+                heatmap = generate_heatmap(hook_base.activation, (width, height))
+                if heatmap is not None:
+                    # heatmap is BGR, frame is BGR
+                    heatmap_vis_base = cv2.addWeighted(frame, 0.5, heatmap, 0.5, 0)
+
+            # 添加标签
+            cv2.putText(annotated_frame_base, "Baseline Det", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 
+                        1.2, (0, 0, 255), 3, cv2.LINE_AA)
+            cv2.putText(heatmap_vis_base, "Baseline Attention", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 
+                        1.2, (0, 0, 255), 3, cv2.LINE_AA)
+
+            # 2. CBAM Inference
+            results_cbam = model_cbam.predict(frame, conf=0.25, verbose=False)
+            annotated_frame_cbam = results_cbam[0].plot()
+            total_detections_cbam += len(results_cbam[0].boxes)
+            
+            # Generate CBAM Heatmap
+            heatmap_vis_cbam = frame.copy() # fallback
+            if hook_cbam.activation is not None:
+                heatmap = generate_heatmap(hook_cbam.activation, (width, height))
+                if heatmap is not None:
+                    heatmap_vis_cbam = cv2.addWeighted(frame, 0.5, heatmap, 0.5, 0)
+            
+            # 添加标签
+            cv2.putText(annotated_frame_cbam, "CBAM Det", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 
+                        1.2, (0, 255, 0), 3, cv2.LINE_AA)
+            cv2.putText(heatmap_vis_cbam, "CBAM Attention", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 
+                        1.2, (0, 255, 0), 3, cv2.LINE_AA)
+            
+            # 3. 合并画面 (2x2 Grid)
+            # Top Row
+            top_row = np.hstack((annotated_frame_base, annotated_frame_cbam))
+            # Bottom Row
+            bot_row = np.hstack((heatmap_vis_base, heatmap_vis_cbam))
+            # Full Grid
+            combined_frame = np.vstack((top_row, bot_row))
+            
+            out.write(combined_frame)
+            
+            frame_count += 1
+            if frame_count % 10 == 0:
+                print(f"   已处理 {frame_count} 帧...", end="\r")
+    finally:
+        # 清理 Hook
+        if handle_base:
+            handle_base.remove()
+        if handle_cbam:
+            handle_cbam.remove()
         
     cap.release()
     out.release()
@@ -227,19 +441,26 @@ with gr.Blocks(title="路面坑洼检测模型对比系统") as demo:
     
     with gr.Tabs():
         with gr.TabItem("📷 图片对比检测"):
-            gr.Markdown("上传路面照片，系统将分别使用基线模型和改进模型进行检测。")
+            gr.Markdown("上传路面照片，系统将分别使用基线模型和改进模型进行检测，并展示注意力热力图。")
             with gr.Row():
                 with gr.Column(scale=1):
                     input_img = gr.Image(type="pil", label="上传原始图片")
                     run_btn = gr.Button("开始对比检测", variant="primary")
                 
                 with gr.Column(scale=2):
+                    gr.Markdown("### 🔍 检测结果")
                     with gr.Row():
                         output_base = gr.Image(type="numpy", label="基线模型 (Baseline) 结果")
                         output_cbam = gr.Image(type="numpy", label="改进模型 (CBAM) 结果")
+                    
+                    gr.Markdown("### 🔥 注意力热力图 (SPPF层)")
+                    with gr.Row():
+                        heatmap_base = gr.Image(type="numpy", label="基线模型热力图")
+                        heatmap_cbam = gr.Image(type="numpy", label="改进模型热力图")
+
                     output_text = gr.Textbox(label="检测统计信息")
                     
-            run_btn.click(fn=detect_pothole, inputs=input_img, outputs=[output_base, output_cbam, output_text])
+            run_btn.click(fn=detect_pothole, inputs=input_img, outputs=[output_base, output_cbam, heatmap_base, heatmap_cbam, output_text])
             
             gr.Examples(
                 examples=["datasets/New_pothole_detection.v2i.yolov8/test/images/1_jpg.rf.a9cc87ae30331b83ba2e75fddcf1ebd5.jpg"],
@@ -247,7 +468,7 @@ with gr.Blocks(title="路面坑洼检测模型对比系统") as demo:
             )
             
         with gr.TabItem("🎥 视频对比检测"):
-            gr.Markdown("上传路面视频，系统将生成 **Baseline (左)** 和 **CBAM (右)** 的并排对比视频，方便逐帧比对效果。")
+            gr.Markdown("上传路面视频，系统将生成 **Baseline (左)** 和 **CBAM (右)** 的并排对比视频，下方附带**热力图**，方便逐帧比对效果。")
             with gr.Row():
                 with gr.Column(scale=1):
                     input_video = gr.Video(label="上传视频")
@@ -255,7 +476,7 @@ with gr.Blocks(title="路面坑洼检测模型对比系统") as demo:
                 
                 with gr.Column(scale=2):
                     # 给 Video 组件添加 elem_id，方便 JS 定位
-                    output_video_combined = gr.Video(label="对比结果 (左: Baseline | 右: CBAM)", elem_id="video_output")
+                    output_video_combined = gr.Video(label="对比结果 (上:检测框 | 下:热力图)", elem_id="video_output")
                     
                     # 添加播放速度控制滑块
                     speed_slider = gr.Slider(
