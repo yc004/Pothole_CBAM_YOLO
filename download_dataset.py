@@ -46,18 +46,26 @@ def download_dataset():
     print(f"✅ 原始下载路径: {downloaded_location}")
 
     # 3. 处理下载后的文件
-    # 情况 A: 下载的是一个 zip 文件
-    if os.path.isfile(downloaded_location) and downloaded_location.endswith('.zip'):
-        print(f"📦 检测到压缩包，开始解压到 {target_dir}...")
-        with zipfile.ZipFile(downloaded_location, 'r') as zip_ref:
-            zip_ref.extractall(target_dir)
-        print("✅ 解压完成")
-        # 删除 zip 包
-        os.remove(downloaded_location)
-        print("🗑️ 已删除压缩包")
+    print(f"📂 处理下载内容: {downloaded_location}")
+    
+    # 情况 A: 下载的是一个 zip 文件 (通过 zipfile 模块检测，不完全依赖后缀)
+    if os.path.isfile(downloaded_location) and zipfile.is_zipfile(downloaded_location):
+        print(f"📦 检测到压缩包，开始自动解压到 {target_dir}...")
+        try:
+            with zipfile.ZipFile(downloaded_location, 'r') as zip_ref:
+                zip_ref.extractall(target_dir)
+            print("✅ 解压完成")
+            # 删除 zip 包
+            os.remove(downloaded_location)
+            print("🗑️ 已删除原始压缩包")
+        except Exception as e:
+            print(f"❌ 解压失败: {e}")
+            return
         
-    # 情况 B: 下载的是一个文件夹
+    # 情况 B: 下载的是一个文件夹 (Roboflow SDK 可能已经自动解压)
     elif os.path.isdir(downloaded_location):
+        print(f"📂 下载内容已是文件夹 (Roboflow SDK 已自动解压)")
+        
         # 检查是否就是目标文件夹
         if os.path.abspath(downloaded_location) == target_dir_abs:
             print("✅ 数据集已在正确位置")
@@ -67,14 +75,19 @@ def download_dataset():
             if not os.path.exists(target_dir):
                 shutil.move(downloaded_location, target_dir)
             else:
-                # 如果存在（可能是空的），先删除再移动，或者把内容移动进去
-                # 简单起见，既然前面检查过不为空的情况，这里如果存在应该是空的
-                os.rmdir(target_dir) # 删除空目录
-                shutil.move(downloaded_location, target_dir)
+                # 如果存在（可能是空的），先删除再移动
+                # 注意：这里假设目标目录是空的或者可以被覆盖
+                try:
+                    shutil.rmtree(target_dir) # 强制删除旧目录
+                    shutil.move(downloaded_location, target_dir)
+                except Exception as e:
+                    print(f"⚠️ 移动失败，请手动检查: {e}")
+                    return
             print("✅ 移动完成")
             
     else:
-        print(f"⚠️ 未知的文件类型: {downloaded_location}")
+        print(f"⚠️ 未知的文件类型或路径: {downloaded_location}")
+        print("   请手动检查该路径下的内容。")
         return
 
     print(f"🎉 数据集准备就绪！位置: {target_dir}")
