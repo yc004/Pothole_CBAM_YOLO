@@ -46,13 +46,12 @@ def train_main():
     model = YOLO(MODEL_CFG)
 
     # 2. 加载预训练权重 (Transfer Learning)
-    # 虽然结构变了，但我们加载官方 yolov8n.pt 的权重，能让模型收敛快很多
-    # 不匹配的层（比如新增的 CBAM）会自动跳过，匹配的层会加载
+    # 使用迁移脚本生成的权重，包含顺延后的参数
     try:
-        model.load('yolov8n.pt')
-        print("✅ 预训练权重 yolov8n.pt 加载成功 (部分层)")
+        model.load('yolov8n_cbam_pretrained.pt')
+        print("✅ 预训练权重 yolov8n_cbam_pretrained.pt 加载成功 (包含 Backbone 和 Head)")
     except Exception as e:
-        print("⚠️ 预训练权重加载提示 (正常):", e)
+        print("⚠️ 预训练权重加载提示:", e)
 
     # 3. 开始训练
     results = model.train(
