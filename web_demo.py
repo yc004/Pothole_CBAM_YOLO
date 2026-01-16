@@ -167,6 +167,59 @@ def detect_video(video_path):
 
     return final_video, info
 
+import time
+
+# 全局变量用于计算 FPS
+prev_time = 0
+
+def detect_webcam(image):
+    """
+    摄像头实时检测 (双模型对比)
+    :param image: 摄像头采集的当前帧 (RGB numpy array)
+    """
+    global prev_time
+    
+    if image is None:
+        return None, "等待摄像头输入..."
+    
+    # 记录开始时间
+    start_time = time.time()
+    
+    # 1. 基线模型推理
+    results_base = model_baseline.predict(image, conf=0.25, verbose=False)
+    res_base = results_base[0]
+    plot_base_bgr = res_base.plot()
+    count_base = len(res_base.boxes)
+    
+    # 2. 改进模型推理
+    results_cbam = model_cbam.predict(image, conf=0.25, verbose=False)
+    res_cbam = results_cbam[0]
+    plot_cbam_bgr = res_cbam.plot()
+    count_cbam = len(res_cbam.boxes)
+    
+    # 3. 合并画面 (左右并排)
+    combined_bgr = np.hstack((plot_base_bgr, plot_cbam_bgr))
+    combined_rgb = combined_bgr[..., ::-1]
+    
+    # 4. 计算 FPS
+    curr_time = time.time()
+    # 计算瞬时 FPS (基于本次处理时间)
+    process_time = curr_time - start_time
+    fps = 1 / process_time if process_time > 0 else 0
+    
+    # 也可以使用平滑 FPS (基于帧间隔)
+    # fps_smooth = 1 / (curr_time - prev_time) if prev_time > 0 else 0
+    prev_time = curr_time
+    
+    # 5. 生成统计信息
+    info = (f"⏱️ 实时 FPS: {fps:.2f}\n"
+            f"⚡ 处理耗时: {process_time*1000:.1f} ms\n"
+            f"----------------------\n"
+            f"🔹 Baseline 检测目标: {count_base}\n"
+            f"🔸 CBAM (改进) 检测目标: {count_cbam}")
+    
+    return combined_rgb, info
+
 # ================= 构建界面 =================
 with gr.Blocks(title="路面坑洼检测模型对比系统") as demo:
     gr.Markdown("# 🛣️ 路面坑洼检测系统 - 模型效果对比")
@@ -201,10 +254,54 @@ with gr.Blocks(title="路面坑洼检测模型对比系统") as demo:
                     video_btn = gr.Button("开始对比处理", variant="primary")
                 
                 with gr.Column(scale=2):
-                    output_video_combined = gr.Video(label="对比结果 (左: Baseline | 右: CBAM)")
+                    # 给 Video 组件添加 elem_id，方便 JS 定位
+                    output_video_combined = gr.Video(label="对比结果 (左: Baseline | 右: CBAM)", elem_id="video_output")
+                    
+                    # 添加播放速度控制滑块
+                    speed_slider = gr.Slider(
+                        minimum=0.1, 
+                        maximum=2.0, 
+                        step=0.1, 
+                        value=1.0, 
+                        label="播放速度 (0.1x - 2.0x)",
+                        elem_id="speed_slider"
+                    )
+                    
                     video_info = gr.Textbox(label="处理信息")
             
+            # 按钮点击事件（后端处理）
             video_btn.click(fn=detect_video, inputs=input_video, outputs=[output_video_combined, video_info])
+            
+            # 滑块改变事件（前端 JS 处理）
+            # 使用 JavaScript 直接控制 video 元素的 playbackRate
+            speed_slider.change(
+                fn=None, 
+                inputs=speed_slider, 
+                outputs=None, 
+                js="(speed) => { const video = document.querySelector('#video_output video'); if (video) { video.playbackRate = speed; } }"
+            )
+
+        with gr.TabItem("🔴 实时预测"):
+            gr.Markdown("使用摄像头进行实时路面坑洼检测。**左侧：Baseline (基线模型) | 右侧：CBAM (改进模型)**")
+            gr.Markdown("⚠️ 注意：同时运行两个模型可能会导致帧率较低，具体取决于硬件性能。")
+            with gr.Row():
+                with gr.Column():
+                    # Gradio 4.x 兼容性修改: 
+                    # 1. source="webcam" -> sources=["webcam"]
+                    # 2. 移除 streaming=True (通过 .stream() 事件处理)
+                    input_webcam = gr.Image(sources=["webcam"], label="摄像头输入", type="numpy")
+                with gr.Column():
+                    output_webcam = gr.Image(label="实时检测结果 (对比)")
+                    webcam_info = gr.Textbox(label="实时数据监控", lines=5)
+            
+            # 使用 stream 事件实现实时流处理 (如果是旧版 Gradio，可能需要用 change)
+            # 为了兼容性，尝试检测 stream 属性，或者直接使用 change (在 streaming=True 时通常也有效)
+            # 这里使用 stream 以获得更好的性能 (如果支持)
+            try:
+                input_webcam.stream(fn=detect_webcam, inputs=input_webcam, outputs=[output_webcam, webcam_info], show_progress="hidden")
+            except AttributeError:
+                # Fallback for older Gradio versions
+                input_webcam.change(fn=detect_webcam, inputs=input_webcam, outputs=[output_webcam, webcam_info], show_progress="hidden")
 
 if __name__ == "__main__":
     print("🚀 启动 Web 服务...")
