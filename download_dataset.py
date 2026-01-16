@@ -6,7 +6,7 @@ import zipfile
 # 请替换为您的 Roboflow API Key
 API_KEY = "rE73tQrrn9WrkZqX284V"
 WORKSPACE = "pothole"
-PROJECT = "new-pothole-detection-hiafr"
+PROJECT = "new-pothole-detection-q1hk4"
 VERSION = 1
 
 def download_dataset():
