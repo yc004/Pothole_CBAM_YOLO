@@ -7,7 +7,8 @@ def transfer_weights_pro():
         if not os.path.exists('yolov8n.pt'):
              # 这里不自动下载，假设用户已有或者能自动下载
              pass
-        base_ckpt = torch.load('yolov8n.pt', map_location='cpu')
+        # 兼容 PyTorch 2.6+ 的 weights_only=True 默认设置
+        base_ckpt = torch.load('yolov8n.pt', map_location='cpu', weights_only=False)
         base_model = base_ckpt['model']
         print("✅ 成功加载官方权重 yolov8n.pt")
     except FileNotFoundError:
