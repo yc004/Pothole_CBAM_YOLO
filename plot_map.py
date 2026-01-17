@@ -137,6 +137,7 @@ if __name__ == '__main__':
     # Configuration
     baseline_path = 'Pothole_Baseline_Project/exp_baseline/results.csv'
     cbam_path = 'Pothole_CBAM_Project/exp_cbam/results.csv'
+    cbam_pro_path = 'Pothole_CBAM_Pro_Project/exp_cbam_pro/results.csv'
     
     # Generate individual plots
     # Save baseline plot to its own folder
@@ -145,5 +146,11 @@ if __name__ == '__main__':
     # Save CBAM plot to its own folder
     plot_single_model(cbam_path, 'Pothole_CBAM_Project/exp_cbam', 'CBAM_Improved')
     
+    # Save CBAM Pro plot to its own folder
+    plot_single_model(cbam_pro_path, 'Pothole_CBAM_Pro_Project/exp_cbam_pro', 'CBAM_Pro_Improved')
+    
     # Generate comparison plot (saving in root or one of the folders, let's save in CBAM folder as it's the "result")
     plot_comparison(baseline_path, cbam_path, 'Pothole_CBAM_Project/exp_cbam')
+    
+    # Generate comparison plot for CBAM Pro (saving in root or one of the folders, let's save in CBAM Pro folder as it's the "result")
+    plot_comparison(baseline_path, cbam_pro_path, 'Pothole_CBAM_Pro_Project/exp_cbam_pro')

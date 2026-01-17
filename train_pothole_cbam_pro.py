@@ -48,8 +48,8 @@ def train_main():
     # 2. 加载预训练权重 (Transfer Learning)
     # 使用迁移脚本生成的权重，包含顺延后的参数
     try:
-        model.load('yolov8n_cbam_pretrained.pt')
-        print("✅ 预训练权重 yolov8n_cbam_pretrained.pt 加载成功 (包含 Backbone 和 Head)")
+        model.load('yolov8n_cbam_pro_pretrained.pt')
+        print("✅ 预训练权重 yolov8n_cbam_pro_pretrained.pt 加载成功 (包含 Backbone 和 Head)")
     except Exception as e:
         print("⚠️ 预训练权重加载提示:", e)
 
