@@ -610,11 +610,8 @@ class CBAM(nn.Module):
         # c2 是为了兼容 parse_model 的传参逻辑，实际不使用
         self.channel_attention = ChannelAttention(c1, ratio)
         self.spatial_attention = SpatialAttention(kernel_size)
-        # 🌟 新增：BatchNorm 层，用于恢复特征分布，防止特征衰减
-        self.bn = nn.BatchNorm2d(c1)
 
     def forward(self, x):
         out = self.channel_attention(x) * x
         out = self.spatial_attention(out) * out
-        # 🌟 修改：通过 BN 层输出
-        return self.bn(out)
+        return out

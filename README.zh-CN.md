@@ -48,18 +48,6 @@
   <a href="https://discord.com/invite/ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-discord.png" width="2%" alt="Ultralytics Discord"></a>
 </div>
 
-- `ultralytics/`: YOLOv8 核心源码 (已修改以支持 CBAM)
-- `datasets/`: 数据集存放目录
-- `train_pothole.py`: 基础训练脚本 (使用标准 CBAM)
-- `train_pothole_cbam_pro.py`: **进阶训练脚本** (使用优化版多尺度 CBAM)
-- `test_result.py`: 测试与推理脚本
-- `predict_video.py`: 实时视频/摄像头检测脚本
-- `web_demo.py`: Web 可视化演示脚本
-- `yolov8n_cbam.yaml`: 集成 CBAM 的模型配置文件 (Baseline)
-- `yolov8n_cbam_pro.yaml`: **优化版模型配置文件** (多尺度 + 参数调优)
-- `pothole_config.yaml`: 训练参数配置文件
-- `README.md`: 项目说明文档
-
 ## 📄 文档
 
 请参阅下文了解快速安装和使用示例。有关训练、验证、预测和部署的全面指南，请参阅我们的完整 [Ultralytics 文档](https://docs.ultralytics.com/)。

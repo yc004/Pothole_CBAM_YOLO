@@ -54,34 +54,7 @@ CBAM 是一种轻量级的注意力模块，它可以集成到任何卷积神经
 **总结**:
 通过这两步（先过滤特征，再聚焦位置），你的模型比原始模型**看得更准**（不容易把影子当坑洼），也**找得更快**（不浪费精力在无关背景上）。这就是为什么加上 CBAM 能提高检测精度的原因。
 
-## 🚀 进阶优化：CBAM-Pro 多尺度注意力模型
-
-为了进一步挖掘注意力机制的潜力，我们提出了 **CBAM-Pro** 改进方案，通过**多尺度部署**和**参数精调**来全方位提升检测性能。
-
-### 1. 多尺度融合 (Multi-Scale Fusion)
-*   **改进前**: 仅在 Backbone 主干网络的末端 (P5层) 添加 CBAM。
-*   **改进后**: 构建了"全阶段注意力网络"，在检测头 (Head) 的 **P3 (小目标)**、**P4 (中目标)**、**P5 (大目标)** 三个输出层前全部加入 CBAM 模块。
-*   **优势**: 路面坑洼尺寸差异巨大，多尺度部署确保了模型不会漏掉细小的坑洼，同时也能精准捕捉巨大的深坑。
-
-### 2. 参数调优 (Micro-Tuning)
-*   **改进前**: 压缩比 `ratio=16`。
-*   **改进后**: 压缩比 `ratio=8`。
-*   **优势**: 降低压缩比意味着保留了更多的通道特征信息。虽然参数量略微增加，但能让模型对坑洼的纹理细节（如边缘的碎石）更加敏感。
-
-### 3. 如何使用 CBAM-Pro
-我们提供了专门的配置文件和训练脚本来运行这个增强版模型：
-
-*   **配置文件**: `yolov8n_cbam_pro.yaml`
-*   **训练脚本**: `train_pothole_cbam_pro.py`
-
-```bash
-# 启动 CBAM-Pro 训练
-python train_pothole_cbam_pro.py
-```
-
-训练结果将保存在 `runs/detect/exp_cbam_pro` 目录下，您可以将其与 `exp_cbam` 的结果进行对比，形成完美的**消融实验 (Ablation Study)** 报告。
-
-##  实验环境与配置
+## � 实验环境与配置
 
 本项目在以下高性能计算环境下进行了训练与测试，验证了改进算法的有效性。
 
@@ -112,13 +85,11 @@ python train_pothole_cbam_pro.py
 
 - `ultralytics/`: YOLOv8 核心源码 (已修改以支持 CBAM)
 - `datasets/`: 数据集存放目录
-- `train_pothole.py`: 基础版 CBAM 训练脚本
-- `train_pothole_cbam_pro.py`: **[新增]** CBAM-Pro 进阶版训练脚本
+- `train_pothole.py`: 训练脚本
 - `test_result.py`: 测试与推理脚本
 - `predict_video.py`: 实时视频/摄像头检测脚本
 - `web_demo.py`: Web 可视化演示脚本
-- `yolov8n_cbam.yaml`: 基础版 CBAM 模型配置文件
-- `yolov8n_cbam_pro.yaml`: **[新增]** CBAM-Pro 进阶版模型配置文件
+- `yolov8n_cbam.yaml`: 集成 CBAM 的模型配置文件
 - `pothole_config.yaml`: 训练参数配置文件
 - `README.md`: 项目说明文档
 
@@ -140,23 +111,17 @@ pip install -r requirements.txt
 
 ### 3. 模型训练
 
-#### 方案 A: 基础 CBAM 模型
-使用 `train_pothole.py` 脚本开始训练。
+使用 `train_pothole.py` 脚本开始训练。该脚本会加载 `yolov8n_cbam.yaml` 模型配置和 `pothole_config.yaml` 数据配置。
+
 ```bash
 python train_pothole.py
-```
-
-#### 方案 B: CBAM-Pro 进阶模型 (推荐)
-使用 `train_pothole_cbam_pro.py` 脚本开始训练。
-```bash
-python train_pothole_cbam_pro.py
 ```
 
 训练过程中，模型会自动下载预训练权重 `yolov8n.pt` (如果尚未下载)。训练结果（权重、日志）将保存在 `runs/detect/` 目录下。
 
 ### 4. 模型测试与推理
 
-训练完成后，可以使用 `test_result.py` 进行测试。请确保脚本中的 `model_path` 指向你训练好的最佳权重文件 (例如 `runs/detect/Pothole_CBAM_Project/exp_cbam_pro/weights/best.pt`)。
+训练完成后，可以使用 `test_result.py` 进行测试。请确保脚本中的 `model_path` 指向你训练好的最佳权重文件 (例如 `runs/detect/train/weights/best.pt`)。
 
 ```bash
 python test_result.py
@@ -195,5 +160,5 @@ python web_demo.py
 
 ## 📝 备注
 
-- 如果遇到显存不足的问题，请在训练脚本中减小 `batch` 大小。
-- 训练轮数 `epochs` 可以在训练脚本中进行调整。
+- 如果遇到显存不足的问题，请在 `train_pothole.py` 中减小 `batch` 大小。
+- 训练轮数 `epochs` 可以在 `train_pothole.py` 中进行调整。

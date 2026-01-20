@@ -19,8 +19,8 @@ import random
 
 # ================= 配置区域 =================
 # 1. 你的项目名称 (必须与 train_pothole.py 中的一致)
-PROJECT_NAME = "Pothole_Baseline_Project"
-EXP_NAME = "exp_baseline"  # 训练时定义的 name
+PROJECT_NAME = "Pothole_CBAM_Project"
+EXP_NAME = "exp_cbam"  # 训练时定义的 name
 
 # 2. 训练好的权重路径 (通常在 runs/detect/项目名/实验名/weights/best.pt)
 # Windows 路径注意: 如果路径不对，请去文件夹里找一下 best.pt 在哪里
