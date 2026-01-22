@@ -96,14 +96,14 @@ def get_heatmap_for_model(model, pil_img):
                     break
             
             if is_cbam_model:
-                # CBAM Model: Layer 9 is CBAM, Layer 10 is SPPF.
-                # We want SPPF (Layer 10)
-                if len(model_layers) > 10:
-                    target_layer = model_layers[10]
-                    layer_name = f"Layer 10 ({target_layer.__class__.__name__})"
-                elif len(model_layers) > 9:
+                # CBAM Model: Layer 9 is CBAM. We want to hook CBAM layer.
+                if len(model_layers) > 9:
                     target_layer = model_layers[9]
                     layer_name = f"Layer 9 ({target_layer.__class__.__name__})"
+                elif len(model_layers) > 10:
+                    # Fallback to SPPF if Layer 9 is somehow not right (unlikely based on yaml)
+                    target_layer = model_layers[10]
+                    layer_name = f"Layer 10 ({target_layer.__class__.__name__})"
             else:
                 # Baseline Model: Layer 9 is SPPF.
                 if len(model_layers) > 9:
@@ -120,6 +120,11 @@ def get_heatmap_for_model(model, pil_img):
                 target_layer = m
                 layer_name = "SPPF (Module Search)"
                 break
+
+    # Refine target for CBAM: If it has spatial_attention, hook that for a cleaner heatmap
+    if target_layer and hasattr(target_layer, 'spatial_attention'):
+        target_layer = target_layer.spatial_attention
+        layer_name += " (SpatialAttention)"
 
     heatmap_overlay = img_rgb # Default to original image
     
@@ -240,15 +245,17 @@ def detect_video(video_path):
     layer_base = None
     layer_cbam = None
     
-    # Try to hook Layer 8 (C2f) for both models
-    target_index = 8
+    # Try to hook Layer 9 (SPPF for Base, CBAM for CBAM-Model)
+    target_index = 9
     
     try:
         if hasattr(model_baseline.model, 'model'):
+            # Baseline: Layer 9 is SPPF
             if len(model_baseline.model.model) > target_index:
                 layer_base = model_baseline.model.model[target_index]
         
         if hasattr(model_cbam.model, 'model'):
+             # CBAM Model: Layer 9 is CBAM
              if len(model_cbam.model.model) > target_index:
                 layer_cbam = model_cbam.model.model[target_index]
     except:
@@ -270,10 +277,14 @@ def detect_video(video_path):
     # 注册 Hook
     handle_base = None
     if layer_base:
+        if hasattr(layer_base, 'spatial_attention'):
+             layer_base = layer_base.spatial_attention
         handle_base = layer_base.register_forward_hook(hook_base.hook_fn)
         
     handle_cbam = None
     if layer_cbam:
+        if hasattr(layer_cbam, 'spatial_attention'):
+             layer_cbam = layer_cbam.spatial_attention
         handle_cbam = layer_cbam.register_forward_hook(hook_cbam.hook_fn)
     
     print("🔄 正在逐帧处理视频 (合并模式 + 热力图)...")
@@ -300,7 +311,7 @@ def detect_video(video_path):
             # 添加标签
             cv2.putText(annotated_frame_base, "Baseline Det", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 
                         1.2, (0, 0, 255), 3, cv2.LINE_AA)
-            cv2.putText(heatmap_vis_base, "Baseline Attention", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 
+            cv2.putText(heatmap_vis_base, "Baseline Feature", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 
                         1.2, (0, 0, 255), 3, cv2.LINE_AA)
 
             # 2. CBAM Inference
@@ -453,10 +464,11 @@ with gr.Blocks(title="路面坑洼检测模型对比系统") as demo:
                         output_base = gr.Image(type="numpy", label="基线模型 (Baseline) 结果")
                         output_cbam = gr.Image(type="numpy", label="改进模型 (CBAM) 结果")
                     
-                    gr.Markdown("### 🔥 注意力热力图 (SPPF层)")
+                    gr.Markdown("### 🔥 热力图对比 (Heatmap Comparison)")
+                    gr.Markdown("注：基线模型展示的是 **SPPF层特征激活图 (Feature Activation)**，反映高响应区域；改进模型展示的是 **CBAM层空间注意力图 (Spatial Attention)**，反映模型主动关注的区域。")
                     with gr.Row():
-                        heatmap_base = gr.Image(type="numpy", label="基线模型热力图")
-                        heatmap_cbam = gr.Image(type="numpy", label="改进模型热力图")
+                        heatmap_base = gr.Image(type="numpy", label="基线模型特征响应 (SPPF Activation)")
+                        heatmap_cbam = gr.Image(type="numpy", label="改进模型注意力 (CBAM Attention)")
 
                     output_text = gr.Textbox(label="检测统计信息")
                     
