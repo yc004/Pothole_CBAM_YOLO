@@ -7,4 +7,4 @@ requests>=2.23.0
 scipy>=1.4.1
 psutil>=5.8.0
 polars>=0.20.0
-ultralytics-thop>=2.0.18
+ultralytics-thop>=2.0.19
